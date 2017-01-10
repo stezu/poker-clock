@@ -1,9 +1,6 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 
 export default class Header extends Component {
-  static propTypes = {
-    levels: PropTypes.array.isRequired
-  };
 
   render() {
 

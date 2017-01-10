@@ -18,7 +18,7 @@ class App extends Component {
 
     return (
       <div>
-        <Header levels={ levels } />
+        <Header />
         <Timer timer={ timer } actions={ actions } />
         <Info levels={ levels } />
       </div>
