@@ -3,8 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
-import Info from '../components/Info';
+import LevelInfo from '../components/LevelInfo';
 import * as actions from '../actions';
+import { getLevelsForDisplay } from '../modules';
 
 class App extends Component {
   static propTypes = {
@@ -14,13 +15,14 @@ class App extends Component {
   };
 
   render() {
-    const { timer, actions, levels } = this.props;
+    const { timer, actions, levels, currentLevel } = this.props;
+    const displayLevels = getLevelsForDisplay(levels, currentLevel);
 
     return (
-      <div>
+      <div className="poker-clock">
         <Header />
         <Timer timer={ timer } actions={ actions } />
-        <Info levels={ levels } />
+        <LevelInfo displayLevels={ displayLevels } />
       </div>
     );
   }
@@ -28,7 +30,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
   timer: state.timer,
-  levels: state.levels
+  levels: state.levels,
+  currentLevel: state.currentLevel
 });
 
 const mapDispatchToProps = (dispatch) => ({

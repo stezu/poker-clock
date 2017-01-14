@@ -5,9 +5,7 @@ import {
   EDIT_SMALL_BLIND,
   REMOVE_LEVEL,
   ADD_LEVEL,
-  ADD_BREAK,
-  INCREMENT_CURRENT_LEVEL,
-  DECREMENT_CURRENT_LEVEL
+  ADD_BREAK
 } from '../constants/ActionTypes';
 
 // Get the level configuration
@@ -49,8 +47,7 @@ function createLevel({ id, type }) {
   const level = {
     id,
     type,
-    duration,
-    current: false
+    duration
   };
 
   if (level.type === 'play') {
@@ -82,14 +79,7 @@ function getInitialState() {
   return numberPlayLevels(levels);
 }
 
-function getCurrentLevel(state) {
-  return state.reduce((memo, level) => {
-    return level.current === true ? level.id : memo;
-  }, 0);
-}
-
 export default function levels(state = getInitialState(), action) {
-  const currentLevel = getCurrentLevel(state);
 
   switch (action.type) {
     case RESET_LEVELS:
@@ -132,22 +122,6 @@ export default function levels(state = getInitialState(), action) {
         ...state,
         createLevel({ id: state.length, type: 'break' })
       ];
-
-    case INCREMENT_CURRENT_LEVEL:
-      return state.map((level) => {
-        return {
-          ...level,
-          current: (currentLevel + 1 === level.id) ? true : false
-        }
-      });
-
-    case DECREMENT_CURRENT_LEVEL:
-      return state.map((level) => {
-        return {
-          ...level,
-          current: (currentLevel - 1 === level.id) ? true : false
-        }
-      });
 
     default:
       return state;
