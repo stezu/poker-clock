@@ -2,6 +2,9 @@ import * as types from '../constants/ActionTypes';
 import Duration from 'duration-js';
 
 // Timer Actions
+export const resetTimer = () => ({
+  type: types.RESET_TIMER
+});
 export const startTimer = ({ duration }) => ({
   type: types.START_TIMER,
   now: Date.now(),

@@ -3,6 +3,15 @@ import Clock from './Clock';
 import Controls from './Controls';
 import { getRemainingTime } from '../modules';
 
+function startLevel(actions, level) {
+
+  if (level) {
+    return actions.startTimer(level);
+  }
+
+  actions.resetTimer();
+}
+
 export default class Timer extends Component {
   static propTypes = {
     timer: PropTypes.object.isRequired,
@@ -20,25 +29,25 @@ export default class Timer extends Component {
   handleResume(actions, nextLevel, isStarted) {
 
     if (!isStarted) {
-      return actions.startTimer(nextLevel);
+      return startLevel(actions, nextLevel);
     }
 
-    return actions.resumeTimer();
+    actions.resumeTimer();
   }
 
   handlePrev(actions, prevLevel) {
     actions.decrementLevel();
-    actions.startTimer(prevLevel);
+    startLevel(actions, prevLevel);
   }
 
   handleNext(actions, nextLevel) {
     actions.incrementLevel();
-    actions.startTimer(nextLevel);
+    startLevel(actions, nextLevel);
   }
 
   handleTimeEnd(actions, nextLevel) {
     actions.incrementLevel();
-    actions.startTimer(nextLevel);
+    startLevel(actions, nextLevel);
   }
 
   componentDidMount() {

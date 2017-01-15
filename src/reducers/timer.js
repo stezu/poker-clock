@@ -1,4 +1,5 @@
 import {
+  RESET_TIMER,
   START_TIMER,
   PAUSE_TIMER,
   RESUME_TIMER
@@ -14,6 +15,9 @@ const initialState = {
 
 export default function timer(state = initialState, action) {
   switch (action.type) {
+    case RESET_TIMER:
+      return initialState;
+
     case START_TIMER:
       return {
         ...state,
