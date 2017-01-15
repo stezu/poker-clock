@@ -9,25 +9,27 @@ export default class Controls extends Component {
     onPrev: PropTypes.func.isRequired
   };
 
-  renderPrevButton(onPrev) {
+  renderPrevButton({ onPrev, prevLevel }) {
+    var disabled = !prevLevel;
 
     return (
-      <button className="prev" onClick={ onPrev }>
+      <button className="prev" disabled={ disabled } onClick={ onPrev }>
         Prev
       </button>
     );
   }
 
-  renderNextButton(onNext) {
+  renderNextButton({ onNext, nextLevel }) {
+    var disabled = !nextLevel;
 
     return (
-      <button className="next" onClick={ onNext }>
+      <button className="next" disabled={ disabled } onClick={ onNext }>
         Next
       </button>
     );
   }
 
-  renderPlayButton(onPause, onResume, paused) {
+  renderPlayButton({ onPause, onResume, paused }) {
 
     if (paused) {
       return (
@@ -45,13 +47,21 @@ export default class Controls extends Component {
   }
 
   render() {
-    const { paused, onPause, onResume, onNext, onPrev } = this.props;
+    const {
+      paused,
+      onPause,
+      onResume,
+      onNext,
+      onPrev,
+      prevLevel,
+      nextLevel
+    } = this.props;
 
     return (
       <section className="controls">
-        { this.renderPrevButton(onPrev) }
-        { this.renderPlayButton(onPause, onResume, paused) }
-        { this.renderNextButton(onNext) }
+        { this.renderPrevButton({ onPrev, prevLevel }) }
+        { this.renderPlayButton({ onPause, onResume, paused }) }
+        { this.renderNextButton({ onNext, nextLevel }) }
       </section>
     );
   }

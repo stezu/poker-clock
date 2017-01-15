@@ -99,6 +99,8 @@ export default class Timer extends Component {
           onResume={ this.handleResume.bind(this, actions, nextLevel, timer.started) }
           onPrev={ this.handlePrev.bind(this, actions, prevLevel) }
           onNext={ this.handleNext.bind(this, actions, nextLevel) }
+          prevLevel={ prevLevel }
+          nextLevel={ nextLevel }
         />
       </section>
     );
