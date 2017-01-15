@@ -24,7 +24,8 @@ class App extends Component {
         <Timer
           timer={ timer }
           actions={ actions }
-          nextLevel={ levels[currentLevel + 1] }
+          prevLevel={ displayLevels.previous }
+          nextLevel={ displayLevels.next }
         />
         <LevelInfo displayLevels={ displayLevels } />
       </div>

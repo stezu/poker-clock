@@ -7,6 +7,7 @@ export default class Timer extends Component {
   static propTypes = {
     timer: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
+    prevLevel: PropTypes.object,
     nextLevel: PropTypes.object
   };
 
@@ -25,12 +26,14 @@ export default class Timer extends Component {
     return actions.resumeTimer();
   }
 
-  handleNext(actions) {
-    actions.incrementLevel();
+  handlePrev(actions, prevLevel) {
+    actions.decrementLevel();
+    actions.startTimer(prevLevel);
   }
 
-  handlePrev(actions) {
-    actions.decrementLevel();
+  handleNext(actions, nextLevel) {
+    actions.incrementLevel();
+    actions.startTimer(nextLevel);
   }
 
   handleTimeEnd(actions, nextLevel) {
@@ -76,7 +79,7 @@ export default class Timer extends Component {
   }
 
   render() {
-    const { timer, actions, nextLevel } = this.props;
+    const { timer, actions, prevLevel, nextLevel } = this.props;
 
     return (
       <section className="timer">
@@ -85,8 +88,8 @@ export default class Timer extends Component {
           paused={ timer.paused }
           onPause={ this.handlePause.bind(this, actions) }
           onResume={ this.handleResume.bind(this, actions, nextLevel, timer.started) }
-          onNext={ this.handleNext.bind(this, actions) }
-          onPrev={ this.handlePrev.bind(this, actions) }
+          onPrev={ this.handlePrev.bind(this, actions, prevLevel) }
+          onNext={ this.handleNext.bind(this, actions, nextLevel) }
         />
       </section>
     );
