@@ -16,8 +16,7 @@ export default class Timer extends Component {
   static propTypes = {
     timer: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    prevLevel: PropTypes.object,
-    nextLevel: PropTypes.object
+    displayLevels: PropTypes.object.isRequired
   };
 
   remainingTime = {};
@@ -26,10 +25,10 @@ export default class Timer extends Component {
     actions.pauseTimer();
   }
 
-  handleResume(actions, nextLevel, isStarted) {
+  handleResume(actions, currentLevel, isStarted) {
 
     if (!isStarted) {
-      return startLevel(actions, nextLevel);
+      return startLevel(actions, currentLevel);
     }
 
     actions.resumeTimer();
@@ -88,7 +87,7 @@ export default class Timer extends Component {
   }
 
   render() {
-    const { timer, actions, prevLevel, nextLevel } = this.props;
+    const { timer, actions, displayLevels } = this.props;
 
     return (
       <section className="timer">
@@ -96,11 +95,11 @@ export default class Timer extends Component {
         <Controls
           paused={ timer.paused }
           onPause={ this.handlePause.bind(this, actions) }
-          onResume={ this.handleResume.bind(this, actions, nextLevel, timer.started) }
-          onPrev={ this.handlePrev.bind(this, actions, prevLevel) }
-          onNext={ this.handleNext.bind(this, actions, nextLevel) }
-          prevLevel={ prevLevel }
-          nextLevel={ nextLevel }
+          onResume={ this.handleResume.bind(this, actions, displayLevels.current, timer.started) }
+          onPrev={ this.handlePrev.bind(this, actions, displayLevels.previous) }
+          onNext={ this.handleNext.bind(this, actions, displayLevels.next) }
+          prevLevel={ displayLevels.previous }
+          nextLevel={ displayLevels.next }
         />
       </section>
     );
