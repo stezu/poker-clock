@@ -21,7 +21,7 @@ export default function timer(state = initialState, action) {
         duration: action.duration,
         elapsedTime: 0,
         paused: false,
-        started: false
+        started: true
       };
 
     case PAUSE_TIMER:
