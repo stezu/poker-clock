@@ -21,17 +21,21 @@ class App extends Component {
     return (
       <div className="poker-clock">
         <Header />
-        <Timer timer={ timer } actions={ actions } />
+        <Timer
+          timer={ timer }
+          actions={ actions }
+          nextLevel={ levels[currentLevel + 1] }
+        />
         <LevelInfo displayLevels={ displayLevels } />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  timer: state.timer,
-  levels: state.levels,
-  currentLevel: state.currentLevel
+const mapStateToProps = ({ timer, levels, currentLevel }) => ({
+  timer,
+  levels,
+  currentLevel
 });
 
 const mapDispatchToProps = (dispatch) => ({

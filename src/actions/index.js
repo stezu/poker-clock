@@ -2,16 +2,18 @@ import * as types from '../constants/ActionTypes';
 import Duration from 'duration-js';
 
 // Timer Actions
-export const startTimer = (duration) => ({
+export const startTimer = ({ duration }) => ({
   type: types.START_TIMER,
   now: Date.now(),
   duration
 });
 export const pauseTimer = () => ({
-  type: types.PAUSE_TIMER
+  type: types.PAUSE_TIMER,
+  now: Date.now()
 });
 export const resumeTimer = () => ({
-  type: types.RESUME_TIMER
+  type: types.RESUME_TIMER,
+  now: Date.now()
 });
 
 // Level Actions
@@ -43,6 +45,8 @@ export const addLevel = () => ({
 export const addBreak = () => ({
   type: types.ADD_BREAK
 });
+
+// Current Level
 export const incrementLevel = () => ({
   type: types.INCREMENT_CURRENT_LEVEL
 });

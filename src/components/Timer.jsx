@@ -4,39 +4,52 @@ import Controls from './Controls';
 
 export default class Timer extends Component {
   static propTypes = {
-    actions: PropTypes.object.isRequired
+    timer: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    nextLevel: PropTypes.object
   };
 
-  handleStart(duration) {
-    this.props.actions.startTimer({
-      duration
-    });
+  handlePause(actions) {
+    actions.pauseTimer();
   }
 
-  handlePause() {
-    this.props.actions.pauseTimer();
+  handleResume(actions, nextLevel, isStarted) {
+
+    if (!isStarted) {
+      return actions.startTimer(nextLevel);
+    }
+
+    return actions.resumeTimer();
   }
 
-  handleResume() {
-    this.props.actions.resumeTimer();
+  handleNext(actions) {
+    actions.incrementLevel();
+  }
+
+  handlePrev(actions) {
+    actions.decrementLevel();
+  }
+
+  // TODO: this is bad apparently
+  handleTimeEnd(actions) {
+    // actions.incrementLevel();
   }
 
   render() {
-    const { timer, actions } = this.props;
-
-    // TODO: this is bad apparently
-    function handleTimeEnd() {
-      actions.incrementLevel();
-    }
+    const { timer, actions, nextLevel } = this.props;
 
     return (
       <section className="timer">
-        <Clock timer={ timer } onTimeEnd={ handleTimeEnd } />
-        <Controls
+        <Clock
           timer={ timer }
-          onStart={ this.handleStart }
-          onPause={ this.handlePause }
-          onResume={ this.handleResume }
+          onTimeEnd={ this.handleTimeEnd.bind(this, actions) }
+        />
+        <Controls
+          paused={ timer.paused }
+          onPause={ this.handlePause.bind(this, actions) }
+          onResume={ this.handleResume.bind(this, actions, nextLevel, timer.started) }
+          onNext={ this.handleNext.bind(this, actions) }
+          onPrev={ this.handlePrev.bind(this, actions) }
         />
       </section>
     );
