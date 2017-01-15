@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Timer from '../components/Timer';
 import LevelInfo from '../components/LevelInfo';
+import Footer from '../components/Footer';
 import * as actions from '../actions';
 import { getLevelsForDisplay } from '../modules';
 
@@ -28,6 +29,7 @@ class App extends Component {
           nextLevel={ displayLevels.next }
         />
         <LevelInfo displayLevels={ displayLevels } />
+        <Footer />
       </div>
     );
   }
