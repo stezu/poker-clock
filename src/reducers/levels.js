@@ -15,7 +15,14 @@ import { getLevelConfiguration } from '../config';
 // Just simply using Array(n) would produce an array that cannot be
 // iterated over so this is a bit of a hack to make it work.
 function arrayOfLength(n) {
-  return Array.from(Array(n));
+  const result = Array(n);
+  let index = -1;
+
+  while (++index < n) {
+    result[index] = index + 1;
+  }
+
+  return result;
 }
 
 // Each level of play needs to have a number. This function
@@ -66,7 +73,7 @@ function getInitialState() {
     breakEveryXLevels
   } = getLevelConfiguration();
 
-  const levels = arrayOfLength(numberOfLevels).map((_, id) => {
+  const levels = arrayOfLength(numberOfLevels).map((id) => {
 
     // Every few levels is a break
     if (id % breakEveryXLevels === 0) {
