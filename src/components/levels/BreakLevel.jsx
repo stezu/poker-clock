@@ -1,17 +1,14 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class BreakLevel extends Component {
-  static propTypes = {
-    position: PropTypes.string.isRequired
-  };
+export default function BreakLevel({ position }) {
 
-  render() {
-    const { position } = this.props;
+  return (
+    <div className={ `level level--break level--${position}` }>
+      <div className="level__break">{ 'Break' }</div>
+    </div>
+  );
+}
 
-    return (
-      <div className={ `level level--break level--${ position }` }>
-        <div className="level__break">Break</div>
-      </div>
-    );
-  }
+BreakLevel.propTypes = {
+  position: PropTypes.string.isRequired
 };

@@ -1,68 +1,56 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
-export default class Controls extends Component {
+export default class Controls extends PureComponent {
   static propTypes = {
     paused: PropTypes.bool.isRequired,
     onPause: PropTypes.func.isRequired,
     onResume: PropTypes.func.isRequired,
     onNext: PropTypes.func.isRequired,
-    onPrev: PropTypes.func.isRequired
+    onPrev: PropTypes.func.isRequired,
+    hasPrevLevel: PropTypes.bool.isRequired,
+    hasNextLevel: PropTypes.bool.isRequired
   };
 
-  renderPrevButton({ onPrev, prevLevel }) {
-    var disabled = !prevLevel;
+  renderPrevButton() {
+    const { onPrev, hasPrevLevel } = this.props;
+    const disabled = !hasPrevLevel;
 
     return (
-      <button className="prev" disabled={ disabled } onClick={ onPrev }>
-        Prev
-      </button>
+      <button className="prev" disabled={ disabled } onClick={ onPrev }>{ 'Prev' }</button>
     );
   }
 
-  renderNextButton({ onNext, nextLevel }) {
-    var disabled = !nextLevel;
+  renderNextButton() {
+    const { onNext, hasNextLevel } = this.props;
+    const disabled = !hasNextLevel;
 
     return (
-      <button className="next" disabled={ disabled } onClick={ onNext }>
-        Next
-      </button>
+      <button className="next" disabled={ disabled } onClick={ onNext }>{ 'Next' }</button>
     );
   }
 
-  renderPlayButton({ onPause, onResume, paused }) {
+  renderPlayButton() {
+    const { onResume, onPause, paused } = this.props;
 
     if (paused) {
       return (
-        <button className="play" onClick={ onResume }>
-          Play
-        </button>
+        <button className="play" onClick={ onResume }>{ 'Play' }</button>
       );
     }
 
     return (
-      <button className="play" onClick={ onPause }>
-        Pause
-      </button>
+      <button className="play" onClick={ onPause }>{ 'Pause' }</button>
     );
   }
 
   render() {
-    const {
-      paused,
-      onPause,
-      onResume,
-      onNext,
-      onPrev,
-      prevLevel,
-      nextLevel
-    } = this.props;
 
     return (
       <section className="controls">
-        { this.renderPrevButton({ onPrev, prevLevel }) }
-        { this.renderPlayButton({ onPause, onResume, paused }) }
-        { this.renderNextButton({ onNext, nextLevel }) }
+        { this.renderPrevButton() }
+        { this.renderPlayButton() }
+        { this.renderNextButton() }
       </section>
     );
   }
-};
+}

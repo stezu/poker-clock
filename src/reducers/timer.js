@@ -4,6 +4,7 @@ import {
   PAUSE_TIMER,
   RESUME_TIMER
 } from '../constants/ActionTypes';
+import { createReducer } from '../modules';
 
 const initialState = {
   startTime: null,
@@ -13,36 +14,36 @@ const initialState = {
   started: false
 };
 
-export default function timer(state = initialState, action) {
-  switch (action.type) {
-    case RESET_TIMER:
-      return initialState;
+export default createReducer(initialState, {
 
-    case START_TIMER:
-      return {
-        ...state,
-        startTime: action.now,
-        duration: action.duration,
-        elapsedTime: 0,
-        paused: false,
-        started: true
-      };
+  [RESET_TIMER]() {
+    return initialState;
+  },
 
-    case PAUSE_TIMER:
-      return {
-        ...state,
-        elapsedTime: action.now - state.startTime,
-        paused: true
-      };
+  [START_TIMER](state, action) {
+    return {
+      ...state,
+      startTime: action.now,
+      duration: action.duration,
+      elapsedTime: 0,
+      paused: false,
+      started: true
+    };
+  },
 
-    case RESUME_TIMER:
-      return {
-        ...state,
-        startTime: action.now - state.elapsedTime,
-        paused: false
-      };
+  [PAUSE_TIMER](state, action) {
+    return {
+      ...state,
+      elapsedTime: action.now - state.startTime,
+      paused: true
+    };
+  },
 
-    default:
-      return state;
+  [RESUME_TIMER](state, action) {
+    return {
+      ...state,
+      startTime: action.now - state.elapsedTime,
+      paused: false
+    };
   }
-}
+});

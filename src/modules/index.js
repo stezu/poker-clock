@@ -12,7 +12,7 @@ export function getLevelsForDisplay(levels, currentLevel) {
 
 // Given a number, return a string that has at least 2 characters
 export function padSection(num) {
-  var str = `${num || 0}`;
+  const str = `${num || 0}`;
 
   if (str.length >= 2) {
     return str;
@@ -44,4 +44,33 @@ export function getRemainingTime({ start, duration, now }) {
   }
 
   return result;
+}
+
+// Create an array with a certain length that can be iterated over.
+// Just simply using Array(n) would produce an array that cannot be
+// iterated over so this is a bit of a hack to make it work.
+export function arrayOfLength(n) {
+  const result = Array(n);
+  let index = 0;
+
+  while (index < n) {
+    result[index] = index + 1;
+
+    index += 1;
+  }
+
+  return result;
+}
+
+// Given an initial state and an object of handlers, create any arbitrary reducer
+export function createReducer(initialState, handlers) {
+
+  return function reducer(state = initialState, action) {
+
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action);
+    }
+
+    return state;
+  };
 }

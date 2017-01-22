@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import Clock from './Clock';
 import Controls from './Controls';
 import { getRemainingTime } from '../modules';
@@ -6,56 +6,89 @@ import { getRemainingTime } from '../modules';
 function startLevel(actions, level) {
 
   if (level) {
-    return actions.startTimer(level);
+    actions.startTimer(level);
+
+    return;
   }
 
   actions.resetTimer();
 }
 
-export default class Timer extends Component {
+export default class Timer extends PureComponent {
   static propTypes = {
-    timer: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    displayLevels: PropTypes.object.isRequired
+    timer: PropTypes.shape({
+      startTime: PropTypes.number,
+      duration: PropTypes.number,
+      elapsedTime: PropTypes.number,
+      paused: PropTypes.bool,
+      started: PropTypes.bool
+    }).isRequired,
+    actions: PropTypes.objectOf(PropTypes.func).isRequired,
+    displayLevels: PropTypes.shape({
+      previous: PropTypes.object,
+      current: PropTypes.object,
+      next: PropTypes.object
+    }).isRequired
   };
 
   remainingTime = {};
 
-  handlePause(actions) {
+  constructor(props) {
+    super(props);
+
+    this.handlePause = this.handlePause.bind(this);
+    this.handleResume = this.handleResume.bind(this);
+    this.handlePrev = this.handlePrev.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+    this.handleTimeEnd = this.handleTimeEnd.bind(this);
+  }
+
+  handlePause() {
+    const { actions } = this.props;
+
     actions.pauseTimer();
   }
 
-  handleResume(actions, currentLevel, isStarted) {
+  handleResume() {
+    const { timer, actions, displayLevels } = this.props;
 
-    if (!isStarted) {
-      return startLevel(actions, currentLevel);
+    if (!timer.started) {
+      startLevel(actions, displayLevels.current);
+
+      return;
     }
 
     actions.resumeTimer();
   }
 
-  handlePrev(actions, prevLevel) {
+  handlePrev() {
+    const { actions, displayLevels } = this.props;
+
     actions.decrementLevel();
-    startLevel(actions, prevLevel);
+    startLevel(actions, displayLevels.previous);
   }
 
-  handleNext(actions, nextLevel) {
+  handleNext() {
+    const { actions, displayLevels } = this.props;
+
     actions.incrementLevel();
-    startLevel(actions, nextLevel);
+    startLevel(actions, displayLevels.next);
   }
 
-  handleTimeEnd(actions, nextLevel) {
+  handleTimeEnd() {
+    const { actions, displayLevels } = this.props;
+
     actions.incrementLevel();
-    startLevel(actions, nextLevel);
+    startLevel(actions, displayLevels.next);
   }
 
   componentDidMount() {
 
     const animate = () => {
-      const { timer, actions, nextLevel } = this.props;
+      const { timer, actions, displayLevels } = this.props;
 
       if (timer.paused) {
-        this._interval = requestAnimationFrame(animate);
+        this.animationInterval = requestAnimationFrame(animate);
 
         return;
       }
@@ -67,13 +100,13 @@ export default class Timer extends Component {
       });
 
       if (this.remainingTime.total <= 0) {
-        this.handleTimeEnd(actions, nextLevel);
+        this.handleTimeEnd(actions, displayLevels.next);
       }
 
       // TODO: instead of forcing an update 12ish times a second, can we instead
       // only update when the time has changed? Does it even matter?
       this.forceUpdate();
-      this._interval = requestAnimationFrame(animate);
+      this.animationInterval = requestAnimationFrame(animate);
     };
 
     animate();
@@ -81,27 +114,27 @@ export default class Timer extends Component {
 
   componentWillUnmount() {
 
-    if (this._interval) {
-      cancelAnimationFrame(this._interval);
+    if (this.animationInterval) {
+      cancelAnimationFrame(this.animationInterval);
     }
   }
 
   render() {
-    const { timer, actions, displayLevels } = this.props;
+    const { timer, displayLevels } = this.props;
 
     return (
       <section className="timer">
         <Clock remainingTime={ this.remainingTime } />
         <Controls
           paused={ timer.paused }
-          onPause={ this.handlePause.bind(this, actions) }
-          onResume={ this.handleResume.bind(this, actions, displayLevels.current, timer.started) }
-          onPrev={ this.handlePrev.bind(this, actions, displayLevels.previous) }
-          onNext={ this.handleNext.bind(this, actions, displayLevels.next) }
-          prevLevel={ displayLevels.previous }
-          nextLevel={ displayLevels.next }
+          onPause={ this.handlePause }
+          onResume={ this.handleResume }
+          onPrev={ this.handlePrev }
+          onNext={ this.handleNext }
+          hasPrevLevel={ !!displayLevels.previous }
+          hasNextLevel={ !!displayLevels.next }
         />
       </section>
     );
   }
-};
+}
