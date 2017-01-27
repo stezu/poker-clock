@@ -1,7 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
-import Clock from './Clock';
-import Controls from './Controls';
-import { getRemainingTime } from '../modules';
+import { Clock, Controls } from '../';
+import { getRemainingTime } from '../../modules';
 
 function startLevel(actions, level) {
 

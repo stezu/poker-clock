@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
-import Timer from '../components/Timer';
-import LevelInfo from '../components/LevelInfo';
-import Footer from '../components/Footer';
+import { Header, Timer, LevelInfo, Footer } from '../components';
 import * as actions from '../actions';
 import { getLevelsForDisplay } from '../modules';
 

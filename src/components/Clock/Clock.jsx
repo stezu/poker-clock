@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { padSection } from '../modules';
+import { padSection } from '../../modules';
 
 export default function Clock({ remainingTime }) {
   return (
