@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Header, Timer, LevelInfo, Footer } from '../components';
 import * as actions from '../actions';
 import { getLevelsForDisplay } from '../modules';
+import './App.scss';
 
 function App({ timer, actionCreators, levels, currentLevel }) {
   const displayLevels = getLevelsForDisplay(levels, currentLevel);
