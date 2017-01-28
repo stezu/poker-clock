@@ -83,13 +83,18 @@ module.exports = {
   },
 
   module: {
-    // First, run the linter.
-    // It's important to do this before Babel processes the JS.
     preLoaders: [
+      // First, run the linter.
+      // It's important to do this before Babel processes the JS.
       {
         test: /\.(js|jsx)$/,
         loader: 'eslint',
         include: paths.appSrc,
+      },
+      // Then, convert the scss to css so the rest of the loaders only work with css.
+      {
+        test: /\.scss$/,
+        loader: 'sass-loader',
       }
     ],
     loaders: [
@@ -111,13 +116,12 @@ module.exports = {
       },
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
-      // "sass" loader compiles SCSS files to CSS
       // "style" loader turns CSS into JS modules that inject <style> tags.
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
+        loaders: ['style-loader', 'css-loader', 'postcss-loader']
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.

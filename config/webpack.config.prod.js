@@ -87,13 +87,18 @@ module.exports = {
   },
 
   module: {
-    // First, run the linter.
-    // It's important to do this before Babel processes the JS.
     preLoaders: [
+      // First, run the linter.
+      // It's important to do this before Babel processes the JS.
       {
         test: /\.(js|jsx)$/,
         loader: 'eslint',
-        include: paths.appSrc
+        include: paths.appSrc,
+      },
+      // Then, convert the scss to css so the rest of the loaders only work with css.
+      {
+        test: /\.scss$/,
+        loader: 'sass-loader',
       }
     ],
     loaders: [
@@ -106,7 +111,6 @@ module.exports = {
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
-      // "sass" loader compiles SCSS files to CSS
       // "css" loader resolves paths in CSS and adds assets as dependencies.
       // "style" loader normally turns CSS into JS modules injecting <style>,
       // but unlike in development configuration, we do something different.
@@ -127,7 +131,7 @@ module.exports = {
         // Webpack 1.x uses Uglify plugin as a signal to minify *all* the assets
         // including CSS. This is confusing and will be removed in Webpack 2:
         // https://github.com/webpack/webpack/issues/283
-        loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!sass!postcss')
+        loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
