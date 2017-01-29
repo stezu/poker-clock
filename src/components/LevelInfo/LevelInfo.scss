@@ -1,0 +1,15 @@
+.level-info {
+  display: table;
+  padding: 5% 0;
+  width: 100%;
+
+  .level {
+    display: table-cell;
+    vertical-align: middle;
+    width: 33.33333%;
+
+    &--current {
+      font-size: 1.5em;
+    }
+  }
+}

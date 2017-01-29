@@ -1,53 +1,34 @@
-@import "~normalize-scss";
+/*
+ * Using this SCSS file
+ * ====================
+ *
+ * This file system is organized using a variation of Atomic Design,
+ * styles are organized from small parts (atoms), to full pages (templates).
+ *
+ * In addition, there are helper functions and mixins that are defined first.
+ * If this is done properly, there will be no repeat styles, and little to no overriding.
+ *
+ * As a style guide, keep nesting to a maximum of 3 levels (not including pseudo selectors),
+ * limit use of advanced selectors (>, +, ~, etc), and avoid use of IDs if possible.
+ *
+ *
+ * Definitions
+ * -----------
+ * Atoms     - element styles, small building blocks (buttons, inputs, images)
+ * Molecules - combination of atoms (forms, widgets)
+ * Organisms - multiple molecules (header, sidebar, footer)
+ * Templates - multiple organisms (posts, archives)
+ * Pages     - page specific overrides of templates
+ */
 
-@include normalize();
+// =======================
+// Atoms
+// =======================
+@import "scss/atoms/variables";
+@import "scss/atoms/normalize";
+@import "scss/atoms/globals";
 
-* {
-  box-sizing: border-box;
-}
-
-.clear {
-  clear: both;
-}
-
-img {
-  height: auto;
-  max-width: 100%;
-}
-
-svg,
-embed,
-iframe,
-object,
-video {
-  max-width: 100%;
-}
-
-html,
-body {
-  background: #000000;
-  color: #efefef;
-  font-family: 'Arial', sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-a {
-  color: #ffffff;
-  outline: none;
-  text-decoration: none;
-  transition: background 150ms, border-color 250ms, color 250ms, opacity 250ms;
-
-  &:hover,
-  &:focus {
-    color: #eeeeee;
-  }
-}
-
-p:first-child {
-  margin-top: 0;
-}
-
-p:last-child {
-  margin-bottom: 0;
-}
+// =======================
+// Molecules
+// =======================
+@import "scss/molecules/poker-clock"

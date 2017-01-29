@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+.clear {
+  clear: both;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+svg,
+embed,
+iframe,
+object,
+video {
+  max-width: 100%;
+}
+
+html,
+body {
+  background: $color-background;
+  color: $color-text;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  height: 100%;
+  line-height: 1.5;
+}
+
+#root {
+  height: 100%;
+}
+
+a {
+  border-bottom: 1px solid currentColor;
+  color: $color-link;
+  outline: none;
+  text-decoration: none;
+  transition: background 150ms, border-color 250ms, color 250ms, opacity 250ms;
+
+  &:hover,
+  &:focus {
+    color: $color-link-hover;
+  }
+}
+
+p:first-child {
+  margin-top: 0;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}

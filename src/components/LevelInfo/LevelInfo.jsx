@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { BreakLevel, PlayLevel } from '../';
+import './LevelInfo.scss';
 
 export default class LevelInfo extends PureComponent {
   static propTypes = {
