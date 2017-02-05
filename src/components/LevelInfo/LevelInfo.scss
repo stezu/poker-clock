@@ -11,5 +11,10 @@
     &--current {
       font-size: 1.5em;
     }
+
+    &--previous,
+    &--next {
+      opacity: 0.5;
+    }
   }
 }

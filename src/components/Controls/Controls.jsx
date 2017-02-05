@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import './Controls.scss';
 
 export default class Controls extends PureComponent {
   static propTypes = {

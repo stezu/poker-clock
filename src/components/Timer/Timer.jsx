@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Clock, Controls } from '../';
 import { getRemainingTime } from '../../modules';
+import './Timer.scss';
 
 function startLevel(actions, level) {
 
@@ -123,7 +124,7 @@ export default class Timer extends PureComponent {
 
     return (
       <section className="timer">
-        <Clock remainingTime={ this.remainingTime } />
+        <Clock remainingTime={ this.remainingTime } totalTime={ timer.duration / 1000 } />
         <Controls
           paused={ timer.paused }
           onPause={ this.handlePause }
