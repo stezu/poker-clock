@@ -99,7 +99,7 @@ export default class Timer extends PureComponent {
         now: Date.now()
       });
 
-      if (this.remainingTime.total <= 0) {
+      if (this.remainingTime.total < 0) {
         this.handleTimeEnd(actions, displayLevels.next);
       }
 
