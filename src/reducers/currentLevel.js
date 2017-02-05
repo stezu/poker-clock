@@ -2,18 +2,17 @@ import {
   INCREMENT_CURRENT_LEVEL,
   DECREMENT_CURRENT_LEVEL
 } from '../constants/ActionTypes';
+import { createReducer } from '../modules';
 
 const initialState = 0;
 
-export default function currentLevel(state = initialState, action) {
-  switch (action.type) {
-    case INCREMENT_CURRENT_LEVEL:
-      return state + 1;
+export default createReducer(initialState, {
 
-    case DECREMENT_CURRENT_LEVEL:
-      return state - 1;
+  [INCREMENT_CURRENT_LEVEL](state) {
+    return state + 1;
+  },
 
-    default:
-      return state;
+  [DECREMENT_CURRENT_LEVEL](state) {
+    return state - 1;
   }
-}
+});

@@ -7,23 +7,10 @@ import {
   ADD_LEVEL,
   ADD_BREAK
 } from '../constants/ActionTypes';
+import { arrayOfLength, createReducer } from '../modules';
 
 // Get the level configuration
 import { getLevelConfiguration } from '../config';
-
-// Create an array with a certain length that can be iterated over.
-// Just simply using Array(n) would produce an array that cannot be
-// iterated over so this is a bit of a hack to make it work.
-function arrayOfLength(n) {
-  const result = Array(n);
-  let index = -1;
-
-  while (++index < n) {
-    result[index] = index + 1;
-  }
-
-  return result;
-}
 
 // Each level of play needs to have a number. This function
 // adds that auto-incrementing number starting at 1.
@@ -46,7 +33,7 @@ function numberPlayLevels(levels) {
 }
 
 // Create a level which will be added directly to the state.
-function createLevel({ id, type }) {
+function createLevel(id, type) {
   const {
     duration,
     firstBigBlind
@@ -77,60 +64,78 @@ function getInitialState() {
 
     // Every few levels is a break
     if (id % breakEveryXLevels === 0) {
-      return createLevel({ id, type: 'break' });
+      return createLevel(id, 'break');
     }
 
-    return createLevel({ id, type: 'play' });
+    return createLevel(id, 'play');
   });
 
   return numberPlayLevels(levels);
 }
 
-export default function levels(state = getInitialState(), action) {
+export default createReducer(getInitialState(), {
 
-  switch (action.type) {
-    case RESET_LEVELS:
-      return getInitialState();
+  [RESET_LEVELS]() {
+    return getInitialState();
+  },
 
-    case EDIT_DURATION:
-      return state.map((level) =>
-        level.id === action.id ?
-          { ...level, duration: action.duration }:
-          level
-      );
+  [EDIT_DURATION](state, action) {
+    return state.map((level) => {
 
-    case EDIT_BIG_BLIND:
-      return state.map((level) =>
-        level.id === action.id ?
-          { ...level, bigBlind: action.bigBlind }:
-          level
-      );
+      if (level.id === action.id) {
+        return {
+          ...level,
+          duration: action.duration
+        };
+      }
 
-    case EDIT_SMALL_BLIND:
-      return state.map((level) =>
-        level.id === action.id ?
-          { ...level, smallBlind: action.smallBlind }:
-          level
-      );
+      return level;
+    });
+  },
 
-    case REMOVE_LEVEL:
-      return state.filter((level) => {
-        return level.id !== action.id;
-      });
+  [EDIT_BIG_BLIND](state, action) {
+    return state.map((level) => {
 
-    case ADD_LEVEL:
-      return [
-        ...state,
-        createLevel({ id: state.length, type: 'play' })
-      ];
+      if (level.id === action.id) {
+        return {
+          ...level,
+          bigBlind: action.bigBlind
+        };
+      }
 
-    case ADD_BREAK:
-      return [
-        ...state,
-        createLevel({ id: state.length, type: 'break' })
-      ];
+      return level;
+    });
+  },
 
-    default:
-      return state;
+  [EDIT_SMALL_BLIND](state, action) {
+    return state.map((level) => {
+
+      if (level.id === action.id) {
+        return {
+          ...level,
+          smallBlind: action.smallBlind
+        };
+      }
+
+      return level;
+    });
+  },
+
+  [REMOVE_LEVEL](state, action) {
+    return state.filter((level) => level.id !== action.id);
+  },
+
+  [ADD_LEVEL](state) {
+    return [
+      ...state,
+      createLevel(state.length, 'play')
+    ];
+  },
+
+  [ADD_BREAK](state) {
+    return [
+      ...state,
+      createLevel(state.length, 'break')
+    ];
   }
-}
+});
