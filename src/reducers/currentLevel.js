@@ -1,7 +1,7 @@
 import {
   INCREMENT_CURRENT_LEVEL,
   DECREMENT_CURRENT_LEVEL
-} from '../constants/ActionTypes';
+} from '../constants/actionTypes';
 import { createReducer } from '../modules';
 
 const initialState = 0;

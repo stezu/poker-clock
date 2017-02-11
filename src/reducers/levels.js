@@ -6,7 +6,7 @@ import {
   REMOVE_LEVEL,
   ADD_LEVEL,
   ADD_BREAK
-} from '../constants/ActionTypes';
+} from '../constants/actionTypes';
 import { arrayOfLength, createReducer } from '../modules';
 
 // Get the level configuration
