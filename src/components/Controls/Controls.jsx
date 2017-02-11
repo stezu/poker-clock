@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { PREV, PLAY, PAUSE, NEXT } from '../../constants/icons';
 import './Controls.scss';
 
 export default class Controls extends PureComponent {
@@ -28,9 +29,7 @@ export default class Controls extends PureComponent {
           height="36"
           viewBox="0 0 36 36"
         >
-          <path
-            d="M12.8 10v7.36L26.6 10v16l-13.8-7.36V26H11V10"
-          />
+          <path d={ PREV } />
         </svg>
       </button>
     );
@@ -52,9 +51,7 @@ export default class Controls extends PureComponent {
           height="36"
           viewBox="0 0 36 36"
         >
-          <path
-            d="M24.8 10v7.36L11 10v16l13.8-7.36V26h1.8V10"
-          />
+          <path d={ NEXT } />
         </svg>
       </button>
     );
@@ -62,8 +59,6 @@ export default class Controls extends PureComponent {
 
   renderPlayButton() {
     const { onResume, onPause, paused } = this.props;
-    const playPath = 'M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28';
-    const pausePath = 'M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26';
 
     return (
       <button
@@ -85,8 +80,8 @@ export default class Controls extends PureComponent {
         >
           <path
             d={ paused ?
-              playPath :
-              pausePath
+              PLAY :
+              PAUSE
             }
           />
         </svg>
