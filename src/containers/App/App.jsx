@@ -1,24 +1,18 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Header, Timer, LevelInfo, Footer } from '../components';
-import * as actions from '../actions';
-import { getLevelsForDisplay } from '../modules';
+import { Header, Timer, LevelInfo, Footer } from '../../components';
+import * as actions from '../../actions';
+import { getLevelsForDisplay } from '../../modules';
 import './App.scss';
 
-function handleSettingsClick() {
-  global.console.log('clicked the settings thing');
-}
-
-function App({ timer, actionCreators, levels, currentLevel }) {
+function App({ children, actionCreators, timer, levels, currentLevel }) {
   const displayLevels = getLevelsForDisplay(levels, currentLevel);
 
   return (
     <div className="poker-clock">
       <div className="poker-clock__primary">
-        <Header
-          onClickSettings={ handleSettingsClick }
-        />
+        <Header />
         <Timer
           timer={ timer }
           actions={ actionCreators }
@@ -29,10 +23,12 @@ function App({ timer, actionCreators, levels, currentLevel }) {
         <LevelInfo displayLevels={ displayLevels } />
         <Footer />
       </div>
+      { children }
     </div>
   );
 }
 App.propTypes = {
+  children: PropTypes.node,
   actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
   timer: PropTypes.shape({
     startTime: PropTypes.number,
@@ -43,6 +39,9 @@ App.propTypes = {
   }).isRequired,
   levels: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentLevel: PropTypes.number.isRequired
+};
+App.defaultProps = {
+  children: null
 };
 
 const mapStateToProps = ({ timer, levels, currentLevel }) => ({

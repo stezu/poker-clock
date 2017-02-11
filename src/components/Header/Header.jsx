@@ -1,14 +1,15 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { Link } from 'react-router';
 import { COG } from '../../constants/icons';
 import './Header.scss';
 
-export default function Header({ onClickSettings }) {
+export default function Header() {
 
   return (
     <header className="header">
-      <button
+      <Link
+        to="/settings"
         className="settings"
-        onClick={ onClickSettings }
         title="Modify Settings"
       >
         <svg
@@ -18,10 +19,7 @@ export default function Header({ onClickSettings }) {
         >
           <path d={ COG } />
         </svg>
-      </button>
+      </Link>
     </header>
   );
 }
-Header.propTypes = {
-  onClickSettings: PropTypes.func.isRequired
-};
