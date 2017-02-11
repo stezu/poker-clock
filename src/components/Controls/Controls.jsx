@@ -17,7 +17,22 @@ export default class Controls extends PureComponent {
     const disabled = !hasPrevLevel;
 
     return (
-      <button className="prev" disabled={ disabled } onClick={ onPrev }>{ 'Prev' }</button>
+      <button
+        className="button prev"
+        disabled={ disabled }
+        onClick={ onPrev }
+        title="Skip to Previous Level"
+      >
+        <svg
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
+        >
+          <path
+            d="M12.8 10v7.36L26.6 10v16l-13.8-7.36V26H11V10"
+          />
+        </svg>
+      </button>
     );
   }
 
@@ -26,21 +41,56 @@ export default class Controls extends PureComponent {
     const disabled = !hasNextLevel;
 
     return (
-      <button className="next" disabled={ disabled } onClick={ onNext }>{ 'Next' }</button>
+      <button
+        className="button next"
+        disabled={ disabled }
+        onClick={ onNext }
+        title="Skip to Next Level"
+      >
+        <svg
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
+        >
+          <path
+            d="M24.8 10v7.36L11 10v16l13.8-7.36V26h1.8V10"
+          />
+        </svg>
+      </button>
     );
   }
 
   renderPlayButton() {
     const { onResume, onPause, paused } = this.props;
-
-    if (paused) {
-      return (
-        <button className="play" onClick={ onResume }>{ 'Play' }</button>
-      );
-    }
+    const playPath = 'M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28';
+    const pausePath = 'M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26';
 
     return (
-      <button className="play" onClick={ onPause }>{ 'Pause' }</button>
+      <button
+        className="button play"
+        onClick={ paused ?
+          onResume :
+          onPause
+        }
+        title={
+          paused ?
+          'Play Level' :
+          'Pause Level'
+        }
+      >
+        <svg
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
+        >
+          <path
+            d={ paused ?
+              playPath :
+              pausePath
+            }
+          />
+        </svg>
+      </button>
     );
   }
 

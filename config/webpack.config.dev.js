@@ -165,6 +165,12 @@ module.exports = {
       }),
     ];
   },
+
+  // We have shared styles in a central location so all components can import them
+  sassLoader: {
+    includePaths: [paths.appStylesDir]
+  },
+
   plugins: [
     // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -192,6 +198,7 @@ module.exports = {
     // See https://github.com/facebookincubator/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules)
   ],
+
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {

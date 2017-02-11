@@ -1,0 +1,26 @@
+.controls {
+  margin: 10px 0;
+
+  .button {
+    appearance: button;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    line-height: normal;
+    margin: 0 10px;
+    outline: 0;
+    overflow: visible;
+    padding: 0;
+    user-select: none;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}

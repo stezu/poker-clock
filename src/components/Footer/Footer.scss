@@ -1,7 +1,10 @@
+@import "atoms/variables";
+
 .footer {
+  opacity: 0.75;
   padding: 2% 0;
 
   .accent-heart {
-    color: #ff0000;
+    color: $color-red;
   }
 }

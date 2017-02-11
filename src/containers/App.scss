@@ -24,11 +24,11 @@
 // =======================
 // Atoms
 // =======================
-@import "scss/atoms/variables";
-@import "scss/atoms/normalize";
-@import "scss/atoms/globals";
+@import "atoms/variables";
+@import "atoms/normalize";
 
 // =======================
 // Molecules
 // =======================
-@import "scss/molecules/poker-clock"
+@import "molecules/globals";
+@import "molecules/poker-clock"
