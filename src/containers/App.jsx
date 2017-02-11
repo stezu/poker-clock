@@ -6,13 +6,19 @@ import * as actions from '../actions';
 import { getLevelsForDisplay } from '../modules';
 import './App.scss';
 
+function handleSettingsClick() {
+  global.console.log('clicked the settings thing');
+}
+
 function App({ timer, actionCreators, levels, currentLevel }) {
   const displayLevels = getLevelsForDisplay(levels, currentLevel);
 
   return (
     <div className="poker-clock">
       <div className="poker-clock__primary">
-        <Header />
+        <Header
+          onClickSettings={ handleSettingsClick }
+        />
         <Timer
           timer={ timer }
           actions={ actionCreators }
