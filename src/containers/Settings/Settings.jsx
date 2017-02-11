@@ -3,49 +3,40 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Table, TableRow, TableCell } from '../../components';
 import * as actions from '../../actions';
-
-function renderBreakLevel({ level }) {
-
-  return (
-    <TableRow key={ level.id } />
-      <TableCell /> // Sort Handle
-      <TableCell colSpan="4">{ 'Break' }</TableCell>
-      <TableCell /> // Duration
-      <TableCell /> // Delete
-    </TableRow>
-  );
-}
-
-function renderPlayLevel({ level }) {
-
-  return (
-    <TableRow key={ level.id } />
-      <TableCell /> // Sort Handle
-      <TableCell /> // Level Number
-      <TableCell /> // Small Blind
-      <TableCell /> // Big Blind
-      <TableCell /> // Ante
-      <TableCell /> // Duration
-      <TableCell /> // Delete
-    </TableRow>
-  );
-}
+import './Settings.scss';
 
 function Settings({ levels }) {
 
   const tableRows = levels.map((level) => {
 
     if (level.type === 'break') {
-      return renderBreakLevel(level);
+      return (
+        <TableRow key={ level.id }>
+          <TableCell key="sort">{ '=' }</TableCell>
+          <TableCell key="break" colSpan="4">{ 'Break' }</TableCell>
+          <TableCell key="duration">{ level.duration }</TableCell>
+          <TableCell key="delete">{ 'X' }</TableCell>
+        </TableRow>
+      );
     }
 
-    return renderPlayLevel(level);
+    return (
+      <TableRow key={ level.id }>
+        <TableCell key="sort">{ '=' }</TableCell>
+        <TableCell key="number">{ level.number }</TableCell>
+        <TableCell key="smallBlind">{ level.smallBlind }</TableCell>
+        <TableCell key="bigBlind">{ level.bigBlind }</TableCell>
+        <TableCell key="ante">{ level.ante }</TableCell>
+        <TableCell key="duration">{ level.duration }</TableCell>
+        <TableCell key="delete">{ 'X' }</TableCell>
+      </TableRow>
+    );
   });
 
   return (
-    <Table className="settings">
-      { tableRows }
-    </Table>
+    <section className="poker-settings">
+      <Table>{ tableRows }</Table>
+    </section>
   );
 }
 Settings.propTypes = {
