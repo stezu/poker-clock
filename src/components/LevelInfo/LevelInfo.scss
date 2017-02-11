@@ -1,11 +1,6 @@
-@import "atoms/variables";
-
 .level-info {
   display: table;
-  min-height: 185px;
-  overflow: hidden;
   padding: 4% 0;
-  position: relative;
   width: 100%;
 
   .level {
@@ -21,16 +16,5 @@
     &--next {
       opacity: 0.5;
     }
-  }
-
-  &::before {
-    top: -20px;
-    border-radius: 50%;
-    box-shadow: 0 0 30px 20px rgba($color-black, 0.5);
-    content: '';
-    height: 15px;
-    left: 5%;
-    position: absolute;
-    width: 90%;
   }
 }

@@ -82,6 +82,16 @@ export default class Timer extends PureComponent {
     startLevel(actions, displayLevels.next);
   }
 
+  updateRemainingTime(newTime) {
+
+    // Only udpate the component when the remaining time actually changes
+    if (this.remainingTime.total !== newTime.total) {
+      this.remainingTime = newTime;
+
+      this.forceUpdate();
+    }
+  }
+
   componentDidMount() {
 
     const animate = () => {
@@ -93,19 +103,16 @@ export default class Timer extends PureComponent {
         return;
       }
 
-      this.remainingTime = getRemainingTime({
+      this.updateRemainingTime(getRemainingTime({
         start: timer.startTime,
         duration: timer.duration,
         now: Date.now()
-      });
+      }));
 
       if (this.remainingTime.total < 0) {
         this.handleTimeEnd(actions, displayLevels.next);
       }
 
-      // TODO: instead of forcing an update 12ish times a second, can we instead
-      // only update when the time has changed? Does it even matter?
-      this.forceUpdate();
       this.animationInterval = requestAnimationFrame(animate);
     };
 

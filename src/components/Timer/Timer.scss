@@ -1,11 +1,5 @@
-@import "atoms/variables";
-
 .timer {
-  background: rgba($color-accent, 0.1);
-  background-image: radial-gradient(ellipse at 50% 0%, rgba($color-accent, 0.2) 10%, transparent 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: relative;
-  z-index: 10;
 }

@@ -11,14 +11,18 @@ function App({ timer, actionCreators, levels, currentLevel }) {
 
   return (
     <div className="poker-clock">
-      <Header />
-      <Timer
-        timer={ timer }
-        actions={ actionCreators }
-        displayLevels={ displayLevels }
-      />
-      <LevelInfo displayLevels={ displayLevels } />
-      <Footer />
+      <div className="poker-clock__primary">
+        <Header />
+        <Timer
+          timer={ timer }
+          actions={ actionCreators }
+          displayLevels={ displayLevels }
+        />
+      </div>
+      <div className="poker-clock__secondary">
+        <LevelInfo displayLevels={ displayLevels } />
+        <Footer />
+      </div>
     </div>
   );
 }

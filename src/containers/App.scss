@@ -1,34 +1,40 @@
-/*
- * Using this SCSS file
- * ====================
- *
- * This file system is organized using a variation of Atomic Design,
- * styles are organized from small parts (atoms), to full pages (templates).
- *
- * In addition, there are helper functions and mixins that are defined first.
- * If this is done properly, there will be no repeat styles, and little to no overriding.
- *
- * As a style guide, keep nesting to a maximum of 3 levels (not including pseudo selectors),
- * limit use of advanced selectors (>, +, ~, etc), and avoid use of IDs if possible.
- *
- *
- * Definitions
- * -----------
- * Atoms     - element styles, small building blocks (buttons, inputs, images)
- * Molecules - combination of atoms (forms, widgets)
- * Organisms - multiple molecules (header, sidebar, footer)
- * Templates - multiple organisms (posts, archives)
- * Pages     - page specific overrides of templates
- */
-
-// =======================
-// Atoms
-// =======================
-@import "atoms/variables";
 @import "atoms/normalize";
+@import "atoms/variables";
 
-// =======================
-// Molecules
-// =======================
 @import "molecules/globals";
-@import "molecules/poker-clock"
+
+.poker-clock {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+
+  &__primary {
+    background: rgba($color-accent, 0.1);
+    background-image: radial-gradient(ellipse at 50% 0%, rgba($color-accent, 0.2) 10%, transparent 100%);
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    .timer {
+      flex-grow: 1;
+    }
+  }
+
+  &__secondary {
+    min-height: 185px;
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+      top: -20px;
+      border-radius: 50%;
+      box-shadow: 0 0 30px 20px rgba($color-black, 0.5);
+      content: '';
+      height: 15px;
+      left: 5%;
+      position: absolute;
+      width: 90%;
+    }
+  }
+}
