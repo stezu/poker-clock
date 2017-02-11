@@ -1,13 +1,17 @@
 @import "atoms/normalize";
 @import "atoms/variables";
+@import "atoms/mixins";
 
 @import "molecules/globals";
 
 .poker-clock {
   display: flex;
-  flex-direction: column;
   height: 100%;
   text-align: center;
+
+  @include vertical-layout() {
+    flex-direction: column;
+  }
 
   &__primary {
     background: rgba($color-accent, 0.1);
@@ -17,24 +21,37 @@
     flex-direction: column;
 
     .timer {
-      flex-grow: 1;
+      flex: 1 1 auto;
     }
   }
 
   &__secondary {
-    min-height: 185px;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    padding: 10px 20px 0;
     position: relative;
 
+    @include vertical-layout() {
+      min-height: 185px;
+    }
+
     &::before {
-      top: -20px;
+      top: 5%;
       border-radius: 50%;
       box-shadow: 0 0 30px 20px rgba($color-black, 0.5);
       content: '';
-      height: 15px;
-      left: 5%;
+      height: 90%;
+      left: -20px;
       position: absolute;
-      width: 90%;
+      width: 15px;
+
+      @include vertical-layout() {
+        height: 15px;
+        top: -20px;
+        left: 5%;
+        width: 90%;
+      }
     }
   }
 }

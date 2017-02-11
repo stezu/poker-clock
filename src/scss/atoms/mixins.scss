@@ -1,0 +1,8 @@
+
+// A mixin to add a media query for when we switch to the vertical layout
+@mixin vertical-layout() {
+
+  @media (min-height: 550px), (max-width: 600px) {
+    @content;
+  }
+}

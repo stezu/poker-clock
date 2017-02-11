@@ -1,8 +1,9 @@
 @import "atoms/variables";
 
 .footer {
+  flex: 0 1 auto;
   opacity: 0.75;
-  padding: 2% 0;
+  padding: 10px;
 
   .accent-heart {
     color: $color-red;
