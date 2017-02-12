@@ -1,47 +1,29 @@
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Header, Timer, LevelInfo, Footer } from '../../components';
-import * as actions from '../../actions';
+import { Header, LevelInfo, Footer } from '../../components';
 import { getLevelsForDisplay } from '../../modules';
 import './App.scss';
 
-function App({ children, actionCreators, timer, levels, currentLevel }) {
+function App({ children, levels, currentLevel }) {
   const displayLevels = getLevelsForDisplay(levels, currentLevel);
 
   return (
     <div className="poker-clock">
       <div className="poker-clock__primary">
         <Header />
-        <Timer
-          timer={ timer }
-          actions={ actionCreators }
-          displayLevels={ displayLevels }
-        />
+        { children }
       </div>
       <div className="poker-clock__secondary">
         <LevelInfo displayLevels={ displayLevels } />
         <Footer />
       </div>
-      { children }
     </div>
   );
 }
 App.propTypes = {
-  children: PropTypes.node,
-  actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
-  timer: PropTypes.shape({
-    startTime: PropTypes.number,
-    duration: PropTypes.number,
-    elapsedTime: PropTypes.number,
-    paused: PropTypes.bool,
-    started: PropTypes.bool
-  }).isRequired,
+  children: PropTypes.node.isRequired,
   levels: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentLevel: PropTypes.number.isRequired
-};
-App.defaultProps = {
-  children: null
 };
 
 const mapStateToProps = ({ timer, levels, currentLevel }) => ({
@@ -50,11 +32,4 @@ const mapStateToProps = ({ timer, levels, currentLevel }) => ({
   currentLevel
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  actionCreators: bindActionCreators(actions, dispatch)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(App);

@@ -1,20 +1,23 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Clock, Controls } from '../';
-import { getRemainingTime } from '../../modules';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
+import { Clock, Controls } from '../../components';
+import { getRemainingTime, getLevelsForDisplay } from '../../modules';
 import './Timer.scss';
 
-function startLevel(actions, level) {
+function startLevel(actionCreators, level) {
 
   if (level) {
-    actions.startTimer(level);
+    actionCreators.startTimer(level);
 
     return;
   }
 
-  actions.resetTimer();
+  actionCreators.resetTimer();
 }
 
-export default class Timer extends PureComponent {
+class Timer extends PureComponent {
   static propTypes = {
     timer: PropTypes.shape({
       startTime: PropTypes.number,
@@ -23,15 +26,13 @@ export default class Timer extends PureComponent {
       paused: PropTypes.bool,
       started: PropTypes.bool
     }).isRequired,
-    actions: PropTypes.objectOf(PropTypes.func).isRequired,
-    displayLevels: PropTypes.shape({
-      previous: PropTypes.object,
-      current: PropTypes.object,
-      next: PropTypes.object
-    }).isRequired
+    actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
+    levels: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currentLevel: PropTypes.number.isRequired
   };
 
   remainingTime = {};
+  displayLevels = {};
 
   constructor(props) {
     super(props);
@@ -44,42 +45,42 @@ export default class Timer extends PureComponent {
   }
 
   handlePause() {
-    const { actions } = this.props;
+    const { actionCreators } = this.props;
 
-    actions.pauseTimer();
+    actionCreators.pauseTimer();
   }
 
   handleResume() {
-    const { timer, actions, displayLevels } = this.props;
+    const { timer, actionCreators } = this.props;
 
     if (!timer.started) {
-      startLevel(actions, displayLevels.current);
+      startLevel(actionCreators, this.displayLevels.current);
 
       return;
     }
 
-    actions.resumeTimer();
+    actionCreators.resumeTimer();
   }
 
   handlePrev() {
-    const { actions, displayLevels } = this.props;
+    const { actionCreators } = this.props;
 
-    actions.decrementLevel();
-    startLevel(actions, displayLevels.previous);
+    actionCreators.decrementLevel();
+    startLevel(actionCreators, this.displayLevels.previous);
   }
 
   handleNext() {
-    const { actions, displayLevels } = this.props;
+    const { actionCreators } = this.props;
 
-    actions.incrementLevel();
-    startLevel(actions, displayLevels.next);
+    actionCreators.incrementLevel();
+    startLevel(actionCreators, this.displayLevels.next);
   }
 
   handleTimeEnd() {
-    const { actions, displayLevels } = this.props;
+    const { actionCreators } = this.props;
 
-    actions.incrementLevel();
-    startLevel(actions, displayLevels.next);
+    actionCreators.incrementLevel();
+    startLevel(actionCreators, this.displayLevels.next);
   }
 
   updateRemainingTime(newTime) {
@@ -95,7 +96,7 @@ export default class Timer extends PureComponent {
   componentDidMount() {
 
     const animate = () => {
-      const { timer, actions, displayLevels } = this.props;
+      const { timer } = this.props;
 
       if (timer.paused) {
         this.animationInterval = requestAnimationFrame(animate);
@@ -110,7 +111,7 @@ export default class Timer extends PureComponent {
       }));
 
       if (this.remainingTime.total < 0) {
-        this.handleTimeEnd(actions, displayLevels.next);
+        this.handleTimeEnd();
       }
 
       this.animationInterval = requestAnimationFrame(animate);
@@ -127,7 +128,9 @@ export default class Timer extends PureComponent {
   }
 
   render() {
-    const { timer, displayLevels } = this.props;
+    const { timer, levels, currentLevel } = this.props;
+
+    this.displayLevels = getLevelsForDisplay(levels, currentLevel);
 
     return (
       <section className="timer">
@@ -138,10 +141,25 @@ export default class Timer extends PureComponent {
           onResume={ this.handleResume }
           onPrev={ this.handlePrev }
           onNext={ this.handleNext }
-          hasPrevLevel={ !!displayLevels.previous }
-          hasNextLevel={ !!displayLevels.next }
+          hasPrevLevel={ !!this.displayLevels.previous }
+          hasNextLevel={ !!this.displayLevels.next }
         />
       </section>
     );
   }
 }
+
+const mapStateToProps = ({ timer, levels, currentLevel }) => ({
+  timer,
+  levels,
+  currentLevel
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  actionCreators: bindActionCreators(actions, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Timer);
