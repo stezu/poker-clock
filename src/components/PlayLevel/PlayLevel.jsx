@@ -1,22 +1,13 @@
 import React, { PropTypes } from 'react';
-
-// Ensure we always return a string representation of a given value
-function getString(val) {
-
-  if (val === null) {
-    return '-';
-  }
-
-  return val.toString();
-}
+import { getBlindString } from '../../modules';
 
 export default function PlayLevel({ position, ante, smallBlind, bigBlind }) {
 
   return (
     <div className={ `level level--${position}` }>
-      <div className="level__ante">{ getString(ante) }</div>
-      <div className="level__small-blind">{ getString(smallBlind) }</div>
-      <div className="level__big-blind">{ getString(bigBlind) }</div>
+      <div className="level__ante">{ getBlindString(ante) }</div>
+      <div className="level__small-blind">{ getBlindString(smallBlind) }</div>
+      <div className="level__big-blind">{ getBlindString(bigBlind) }</div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ export const RESET_LEVELS = 'RESET_LEVELS';
 export const EDIT_DURATION = 'EDIT_DURATION';
 export const EDIT_BIG_BLIND = 'EDIT_BIG_BLIND';
 export const EDIT_SMALL_BLIND = 'EDIT_SMALL_BLIND';
+export const EDIT_POSITION = 'EDIT_POSITION';
 export const REMOVE_LEVEL = 'REMOVE_LEVEL';
 export const ADD_LEVEL = 'ADD_LEVEL';
 export const ADD_BREAK = 'ADD_BREAK';

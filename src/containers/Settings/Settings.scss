@@ -1,0 +1,10 @@
+@import "atoms/variables";
+
+.poker-settings {
+  background: rgba($color-black, 0.25);
+  border-radius: 3px;
+  border: 1px solid rgba($color-accent, 0.2);
+  box-shadow: 0 0 3px rgba($color-black, 0.2);
+  margin: 5px 15px 15px;
+  overflow-y: auto;
+}

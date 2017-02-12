@@ -3,11 +3,14 @@ import {
   EDIT_DURATION,
   EDIT_BIG_BLIND,
   EDIT_SMALL_BLIND,
+  EDIT_POSITION,
   REMOVE_LEVEL,
   ADD_LEVEL,
   ADD_BREAK
 } from '../constants/actionTypes';
 import { arrayOfLength, createReducer } from '../modules';
+import { v4 as uuid } from 'node-uuid';
+import { arrayMove } from 'react-sortable-hoc';
 
 // Get the level configuration
 import { getLevelConfiguration } from '../config';
@@ -33,20 +36,23 @@ function numberPlayLevels(levels) {
 }
 
 // Create a level which will be added directly to the state.
-function createLevel(id, type) {
+function createLevel(idx, type) {
   const {
-    duration,
+    breakDuration,
+    levelDuration,
     firstBigBlind
   } = getLevelConfiguration();
   const level = {
-    id,
-    type,
-    duration
+    id: uuid(),
+    type
   };
 
   if (level.type === 'play') {
-    level.bigBlind = firstBigBlind * id;
+    level.duration = levelDuration;
+    level.bigBlind = firstBigBlind * idx;
     level.smallBlind = level.bigBlind / 2;
+  } else {
+    level.duration = breakDuration;
   }
 
   return level;
@@ -60,14 +66,14 @@ function getInitialState() {
     breakEveryXLevels
   } = getLevelConfiguration();
 
-  const levels = arrayOfLength(numberOfLevels).map((id) => {
+  const levels = arrayOfLength(numberOfLevels).map((idx) => {
 
     // Every few levels is a break
-    if (id % breakEveryXLevels === 0) {
-      return createLevel(id, 'break');
+    if (idx % breakEveryXLevels === 0) {
+      return createLevel(idx, 'break');
     }
 
-    return createLevel(id, 'play');
+    return createLevel(idx, 'play');
   });
 
   return numberPlayLevels(levels);
@@ -119,6 +125,10 @@ export default createReducer(getInitialState(), {
 
       return level;
     });
+  },
+
+  [EDIT_POSITION](state, action) {
+    return numberPlayLevels(arrayMove(state, action.oldIndex, action.newIndex));
   },
 
   [REMOVE_LEVEL](state, action) {

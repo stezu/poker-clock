@@ -1,27 +1,37 @@
-import React, { PropTypes } from 'react';
-import { COG } from '../../constants/icons';
+import React from 'react';
+import { browserHistory, Link } from 'react-router';
+import { CLOSE, COG } from '../../constants/icons';
 import './Header.scss';
 
-export default function Header({ onClickSettings }) {
+export default function Header() {
+  const settingsOpen = browserHistory.getCurrentLocation().pathname === '/settings';
 
   return (
     <header className="header">
-      <button
+      <Link
+        to={ settingsOpen ?
+          '/' :
+          '/settings'
+        }
         className="settings"
-        onClick={ onClickSettings }
-        title="Modify Settings"
+        title={ settingsOpen ?
+          'Close Settings' :
+          'Modify Settings'
+        }
       >
         <svg
-          width="20"
-          height="20"
-          viewBox="0 0 340.274 340.274"
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
         >
-          <path d={ COG } />
+          <path
+            d={ settingsOpen ?
+              CLOSE :
+              COG
+            }
+          />
         </svg>
-      </button>
+      </Link>
     </header>
   );
 }
-Header.propTypes = {
-  onClickSettings: PropTypes.func.isRequired
-};
