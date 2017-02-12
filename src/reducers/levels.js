@@ -38,18 +38,21 @@ function numberPlayLevels(levels) {
 // Create a level which will be added directly to the state.
 function createLevel(idx, type) {
   const {
-    duration,
+    breakDuration,
+    levelDuration,
     firstBigBlind
   } = getLevelConfiguration();
   const level = {
     id: uuid(),
-    type,
-    duration
+    type
   };
 
   if (level.type === 'play') {
+    level.duration = levelDuration;
     level.bigBlind = firstBigBlind * idx;
     level.smallBlind = level.bigBlind / 2;
+  } else {
+    level.duration = breakDuration;
   }
 
   return level;
