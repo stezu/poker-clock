@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import './TableCell.scss';
 
 export default function TableCell({ children, ...restProps }) {
 
   return (
-    <td { ...restProps }>
+    <td className="table__cell" { ...restProps }>
       { children }
     </td>
   );

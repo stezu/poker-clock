@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import './TableRow.scss';
 
 export default function TableRow({ children }) {
 
   return (
-    <tr>
+    <tr className="table__row">
       { children }
     </tr>
   );

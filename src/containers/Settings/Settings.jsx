@@ -1,41 +1,57 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { Table, TableRow, TableCell } from '../../components';
 import * as actions from '../../actions';
 import './Settings.scss';
 
-function Settings({ levels }) {
+const SortableItem = SortableElement(({ level }) => { // eslint-disable-line new-cap
 
-  const tableRows = levels.map((level) => {
-
-    if (level.type === 'break') {
-      return (
-        <TableRow key={ level.id }>
-          <TableCell key="sort">{ '=' }</TableCell>
-          <TableCell key="break" colSpan="4">{ 'Break' }</TableCell>
-          <TableCell key="duration">{ level.duration }</TableCell>
-          <TableCell key="delete">{ 'X' }</TableCell>
-        </TableRow>
-      );
-    }
-
+  if (level.type === 'break') {
     return (
       <TableRow key={ level.id }>
         <TableCell key="sort">{ '=' }</TableCell>
-        <TableCell key="number">{ level.number }</TableCell>
-        <TableCell key="smallBlind">{ level.smallBlind }</TableCell>
-        <TableCell key="bigBlind">{ level.bigBlind }</TableCell>
-        <TableCell key="ante">{ level.ante }</TableCell>
+        <TableCell key="break" colSpan="4">{ 'Break' }</TableCell>
         <TableCell key="duration">{ level.duration }</TableCell>
         <TableCell key="delete">{ 'X' }</TableCell>
       </TableRow>
     );
-  });
+  }
+
+  return (
+    <TableRow key={ level.id }>
+      <TableCell key="sort">{ '=' }</TableCell>
+      <TableCell key="number">{ level.number }</TableCell>
+      <TableCell key="smallBlind">{ level.smallBlind }</TableCell>
+      <TableCell key="bigBlind">{ level.bigBlind }</TableCell>
+      <TableCell key="ante">{ level.ante }</TableCell>
+      <TableCell key="duration">{ level.duration }</TableCell>
+      <TableCell key="delete">{ 'X' }</TableCell>
+    </TableRow>
+  );
+});
+
+const SortableList = SortableContainer(({ levels }) => { // eslint-disable-line new-cap
+
+  const sortableLevels = levels.map((level, index) =>
+    <SortableItem key={ `item-${level.id}` } level={ level } index={ index } />
+  );
+
+  return (
+    <Table>{ sortableLevels }</Table>
+  );
+});
+
+function handleSortEnd() {
+  global.console.log('done sorting');
+}
+
+function Settings({ levels }) {
 
   return (
     <section className="poker-settings">
-      <Table>{ tableRows }</Table>
+      <SortableList levels={ levels } onSortEnd={ handleSortEnd } />
     </section>
   );
 }
