@@ -16,26 +16,27 @@ const DragHandle = SortableHandle(() =>
 );
 
 const SortableItem = SortableElement(({ level }) => {
+  const cellCount = 11;
 
   if (level.type === 'break') {
     return (
-      <TableRow cellCount={ 7 }>
+      <TableRow cellCount={ cellCount }>
         <TableCell key="sort"><DragHandle /></TableCell>
-        <TableCell key="break" colSpan={ 4 }>{ 'Break' }</TableCell>
-        <TableCell key="duration">{ formatTime(level.duration) }</TableCell>
+        <TableCell key="break" colSpan={ 7 }>{ 'Break' }</TableCell>
+        <TableCell key="duration" colSpan={ 2 }>{ formatTime(level.duration) }</TableCell>
         <TableCell key="delete">{ 'X' }</TableCell>
       </TableRow>
     );
   }
 
   return (
-    <TableRow cellCount={ 7 }>
+    <TableRow cellCount={ cellCount }>
       <TableCell key="sort"><DragHandle /></TableCell>
       <TableCell key="number">{ level.number }</TableCell>
-      <TableCell key="smallBlind">{ getBlindString(level.smallBlind) }</TableCell>
-      <TableCell key="bigBlind">{ getBlindString(level.bigBlind) }</TableCell>
-      <TableCell key="ante">{ getBlindString(level.ante) }</TableCell>
-      <TableCell key="duration">{ formatTime(level.duration) }</TableCell>
+      <TableCell key="smallBlind" colSpan={ 2 }>{ getBlindString(level.smallBlind) }</TableCell>
+      <TableCell key="bigBlind" colSpan={ 2 }>{ getBlindString(level.bigBlind) }</TableCell>
+      <TableCell key="ante" colSpan={ 2 }>{ getBlindString(level.ante) }</TableCell>
+      <TableCell key="duration" colSpan={ 2 }>{ formatTime(level.duration) }</TableCell>
       <TableCell key="delete">{ 'X' }</TableCell>
     </TableRow>
   );
