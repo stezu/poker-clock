@@ -45,7 +45,7 @@ const SortableItem = SortableElement(({ level }) => {
 const SortableList = SortableContainer(({ levels }) => {
 
   const sortableLevels = levels.map((level, index) =>
-    <SortableItem key={ `${level.id}` } level={ level } index={ index } />
+    <SortableItem key={ level.id } level={ level } index={ index } />
   );
 
   return (

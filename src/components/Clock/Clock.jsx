@@ -80,5 +80,8 @@ export default function Clock({ remainingTime, totalTime }) {
 }
 Clock.propTypes = {
   remainingTime: PropTypes.number.isRequired,
-  totalTime: PropTypes.number.isRequired
+  totalTime: PropTypes.number
+};
+Clock.defaultProps = {
+  totalTime: null
 };
