@@ -1,18 +1,26 @@
+// Allow an anonymous arrow function here because react-sortable-hoc
+// does not pass the correct context to this component
+/* eslint-disable react/jsx-no-bind, new-cap */
+
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { Table, TableRow, TableCell } from '../../components';
 import * as actions from '../../actions';
 import './Settings.scss';
 
-const SortableItem = SortableElement(({ level }) => { // eslint-disable-line new-cap
+const DragHandle = SortableHandle(({ ...props }) =>
+  <TableCell key="sort" { ...props }>{ '=' }</TableCell>
+);
+
+const SortableItem = SortableElement(({ level }) => {
 
   if (level.type === 'break') {
     return (
-      <TableRow key={ level.id }>
-        <TableCell key="sort">{ '=' }</TableCell>
-        <TableCell key="break" colSpan="4">{ 'Break' }</TableCell>
+      <TableRow key={ level.id } cellCount={ 7 }>
+        <DragHandle />
+        <TableCell key="break" colSpan={ 4 }>{ 'Break' }</TableCell>
         <TableCell key="duration">{ level.duration }</TableCell>
         <TableCell key="delete">{ 'X' }</TableCell>
       </TableRow>
@@ -20,8 +28,8 @@ const SortableItem = SortableElement(({ level }) => { // eslint-disable-line new
   }
 
   return (
-    <TableRow key={ level.id }>
-      <TableCell key="sort">{ '=' }</TableCell>
+    <TableRow key={ level.id } cellCount={ 7 }>
+      <DragHandle />
       <TableCell key="number">{ level.number }</TableCell>
       <TableCell key="smallBlind">{ level.smallBlind }</TableCell>
       <TableCell key="bigBlind">{ level.bigBlind }</TableCell>
@@ -32,7 +40,7 @@ const SortableItem = SortableElement(({ level }) => { // eslint-disable-line new
   );
 });
 
-const SortableList = SortableContainer(({ levels }) => { // eslint-disable-line new-cap
+const SortableList = SortableContainer(({ levels }) => {
 
   const sortableLevels = levels.map((level, index) =>
     <SortableItem key={ `item-${level.id}` } level={ level } index={ index } />
@@ -43,20 +51,20 @@ const SortableList = SortableContainer(({ levels }) => { // eslint-disable-line 
   );
 });
 
-function handleSortEnd() {
-  global.console.log('done sorting');
-}
-
-function Settings({ levels }) {
+function Settings({ actionCreators, levels }) {
 
   return (
     <section className="poker-settings">
-      <SortableList levels={ levels } onSortEnd={ handleSortEnd } />
+      <SortableList
+        levels={ levels }
+        onSortEnd={ ({ oldIndex, newIndex }) => actionCreators.editPosition(oldIndex, newIndex) }
+        useDragHandle
+      />
     </section>
   );
 }
 Settings.propTypes = {
-  // actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
+  actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
   levels: PropTypes.arrayOf(PropTypes.object).isRequired
   // currentLevel: PropTypes.number.isRequired
 };

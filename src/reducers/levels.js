@@ -3,11 +3,13 @@ import {
   EDIT_DURATION,
   EDIT_BIG_BLIND,
   EDIT_SMALL_BLIND,
+  EDIT_POSITION,
   REMOVE_LEVEL,
   ADD_LEVEL,
   ADD_BREAK
 } from '../constants/actionTypes';
 import { arrayOfLength, createReducer } from '../modules';
+import { arrayMove } from 'react-sortable-hoc';
 
 // Get the level configuration
 import { getLevelConfiguration } from '../config';
@@ -119,6 +121,10 @@ export default createReducer(getInitialState(), {
 
       return level;
     });
+  },
+
+  [EDIT_POSITION](state, action) {
+    return numberPlayLevels(arrayMove(state, action.oldIndex, action.newIndex));
   },
 
   [REMOVE_LEVEL](state, action) {

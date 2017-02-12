@@ -1,8 +1,13 @@
 @import "atoms/variables";
 
 .table__row {
+  display: flex;
 
-  &:not(:first-child) td {
-    border-top: 1px solid rgba($color-white, 0.03);
+  &:not(:first-child) {
+    border-top: 1px solid rgba($color-white, 0.05);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba($color-black, 0.4);
   }
 }

@@ -38,6 +38,11 @@ export const editSmallBlind = (id, smallBlind) => ({
   id,
   smallBlind
 });
+export const editPosition = (oldIndex, newIndex) => ({
+  type: types.EDIT_POSITION,
+  oldIndex,
+  newIndex
+});
 export const removeLevel = (id) => ({
   type: types.REMOVE_LEVEL,
   id

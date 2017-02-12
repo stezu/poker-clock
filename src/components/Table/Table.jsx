@@ -4,11 +4,9 @@ import './Table.scss';
 export default function Table({ children }) {
 
   return (
-    <table className="table">
-      <tbody>
-        { children }
-      </tbody>
-    </table>
+    <div className="table">
+      { children }
+    </div>
   );
 }
 Table.propTypes = {

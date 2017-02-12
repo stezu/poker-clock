@@ -1,16 +1,21 @@
 import React, { PropTypes } from 'react';
 import './TableRow.scss';
 
-export default function TableRow({ children }) {
+export default function TableRow({ children, cellCount }) {
 
   return (
-    <tr className="table__row">
-      { children }
-    </tr>
+    <div className="table__row">
+      { React.Children.map(children, (child) =>
+        React.cloneElement(child, {
+          cellCount
+        })
+      ) }
+    </div>
   );
 }
 TableRow.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  cellCount: PropTypes.number.isRequired
 };
 TableRow.defaultProps = {
   children: null

@@ -1,17 +1,25 @@
 import React, { PropTypes } from 'react';
 import './TableCell.scss';
 
-export default function TableCell({ children, ...restProps }) {
+export default function TableCell({ children, colSpan, cellCount }) {
 
   return (
-    <td className="table__cell" { ...restProps }>
+    <div
+      className="table__cell"
+      style={ {
+        flexBasis: `${colSpan * 100 / cellCount}%`
+      } }
+    >
       { children }
-    </td>
+    </div>
   );
 }
 TableCell.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  colSpan: PropTypes.number,
+  cellCount: PropTypes.number.isRequired
 };
 TableCell.defaultProps = {
-  children: null
+  children: null,
+  colSpan: 1
 };
