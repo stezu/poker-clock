@@ -2,11 +2,16 @@
 
 .header {
   display: flex;
+  flex: 0 0 auto;
   flex-direction: column;
-  padding: 5px;
+  padding: 5px 5px 0;
 
   .settings {
     @extend %button-reset;
     align-self: flex-end;
+
+    svg {
+      display: block;
+    }
   }
 }
