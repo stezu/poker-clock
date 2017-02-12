@@ -11,8 +11,8 @@ import { formatTime, getBlindString } from '../../modules';
 import * as actions from '../../actions';
 import './Settings.scss';
 
-const DragHandle = SortableHandle(({ ...props }) =>
-  <TableCell { ...props }><span className="sort-grip" /></TableCell>
+const DragHandle = SortableHandle(() =>
+  <span className="sort-grip" />
 );
 
 const SortableItem = SortableElement(({ level }) => {
@@ -20,7 +20,7 @@ const SortableItem = SortableElement(({ level }) => {
   if (level.type === 'break') {
     return (
       <TableRow cellCount={ 7 }>
-        <DragHandle key="sort" />
+        <TableCell key="sort"><DragHandle /></TableCell>
         <TableCell key="break" colSpan={ 4 }>{ 'Break' }</TableCell>
         <TableCell key="duration">{ formatTime(level.duration) }</TableCell>
         <TableCell key="delete">{ 'X' }</TableCell>
@@ -30,7 +30,7 @@ const SortableItem = SortableElement(({ level }) => {
 
   return (
     <TableRow cellCount={ 7 }>
-      <DragHandle key="sort" />
+      <TableCell key="sort"><DragHandle /></TableCell>
       <TableCell key="number">{ level.number }</TableCell>
       <TableCell key="smallBlind">{ getBlindString(level.smallBlind) }</TableCell>
       <TableCell key="bigBlind">{ getBlindString(level.bigBlind) }</TableCell>
