@@ -132,14 +132,14 @@ export default createReducer(getInitialState(), {
   },
 
   [REMOVE_LEVEL](state, action) {
-    return state.filter((level) => level.id !== action.id);
+    return numberPlayLevels(state.filter((level) => level.id !== action.id));
   },
 
   [ADD_LEVEL](state) {
-    return [
+    return numberPlayLevels([
       ...state,
       createLevel(state.length, 'play')
-    ];
+    ]);
   },
 
   [ADD_BREAK](state) {

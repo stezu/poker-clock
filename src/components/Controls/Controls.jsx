@@ -1,5 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
-import { PREV, PLAY, PAUSE, NEXT } from '../../constants/icons';
+import React, { PropTypes, PureComponent } from 'react';
+import { Button, Icon } from '../';
 import './Controls.scss';
 
 export default class Controls extends PureComponent {
@@ -18,20 +18,13 @@ export default class Controls extends PureComponent {
     const disabled = !hasPrevLevel;
 
     return (
-      <button
-        className="button prev"
+      <Button
         disabled={ disabled }
         onClick={ onPrev }
         title="Skip to Previous Level"
       >
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 36 36"
-        >
-          <path d={ PREV } />
-        </svg>
-      </button>
+        <Icon name="prev" size={ 36 } />
+      </Button>
     );
   }
 
@@ -40,20 +33,13 @@ export default class Controls extends PureComponent {
     const disabled = !hasNextLevel;
 
     return (
-      <button
-        className="button next"
+      <Button
         disabled={ disabled }
         onClick={ onNext }
         title="Skip to Next Level"
       >
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 36 36"
-        >
-          <path d={ NEXT } />
-        </svg>
-      </button>
+        <Icon name="next" size={ 36 } />
+      </Button>
     );
   }
 
@@ -61,8 +47,7 @@ export default class Controls extends PureComponent {
     const { onResume, onPause, paused } = this.props;
 
     return (
-      <button
-        className="button play"
+      <Button
         onClick={ paused ?
           onResume :
           onPause
@@ -73,19 +58,14 @@ export default class Controls extends PureComponent {
           'Pause Level'
         }
       >
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 36 36"
-        >
-          <path
-            d={ paused ?
-              PLAY :
-              PAUSE
-            }
-          />
-        </svg>
-      </button>
+        <Icon
+          name={ paused ?
+            'play' :
+            'pause'
+          }
+          size={ 36 }
+        />
+      </Button>
     );
   }
 
