@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import './Table.scss';
 
 export default function Table({ children }) {
 

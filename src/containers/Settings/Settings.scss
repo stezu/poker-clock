@@ -1,11 +1,11 @@
 @import "atoms/variables";
-@import "atoms/mixins";
 
 .poker-settings {
-  background: rgba($color-black, 0.85);
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
+  background: rgba($color-black, 0.25);
+  border-radius: 3px;
+  border: 1px solid rgba($color-accent, 0.2);
+  box-shadow: 0 0 3px rgba($color-black, 0.2);
+  display: flex;
+  margin: 5px 15px 25px;
+  overflow-y: auto;
 }
