@@ -12,7 +12,7 @@ import * as actions from '../../actions';
 import './Settings.scss';
 
 const DragHandle = SortableHandle(({ ...props }) =>
-  <TableCell { ...props }>{ '=' }</TableCell>
+  <TableCell { ...props }><span className="sort-grip" /></TableCell>
 );
 
 const SortableItem = SortableElement(({ level }) => {

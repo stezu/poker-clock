@@ -2,6 +2,7 @@
 
 .table__row {
   display: flex;
+  text-align: center;
 
   &:not(:first-child) {
     border-top: 1px solid rgba($color-white, 0.05);
