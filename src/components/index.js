@@ -4,6 +4,7 @@ import Clock from './Clock/Clock';
 import Controls from './Controls/Controls';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
+import LevelEditor from './LevelEditor/LevelEditor';
 import LevelInfo from './LevelInfo/LevelInfo';
 import Table from './Table/Table';
 import TableRow from './TableRow/TableRow';
@@ -16,6 +17,7 @@ export {
   Controls,
   Footer,
   Header,
+  LevelEditor,
   LevelInfo,
   Table,
   TableRow,
