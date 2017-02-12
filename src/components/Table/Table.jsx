@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import './Table.scss';
 
-export default function Table({ children }) {
+export default function Table({ children, ...restProps }) {
 
   return (
-    <div className="table">
+    <ul className="table" { ...restProps }>
       { children }
-    </div>
+    </ul>
   );
 }
 Table.propTypes = {

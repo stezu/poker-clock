@@ -17,9 +17,10 @@ export default function TableCell({ children, colSpan, cellCount }) {
 TableCell.propTypes = {
   children: PropTypes.node,
   colSpan: PropTypes.number,
-  cellCount: PropTypes.number.isRequired
+  cellCount: PropTypes.number
 };
 TableCell.defaultProps = {
   children: null,
-  colSpan: 1
+  colSpan: 1,
+  cellCount: 1
 };

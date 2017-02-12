@@ -11,7 +11,7 @@ export function getLevelsForDisplay(levels, currentLevel) {
 }
 
 // Given a number, return a string that has at least 2 characters
-export function padSection(num) {
+function padSection(num) {
   const str = `${num || 0}`;
 
   if (str.length >= 2) {
@@ -21,26 +21,28 @@ export function padSection(num) {
   return `00${str}`.slice(-2);
 }
 
+export function formatTime(timeInSeconds) {
+  const time = new Duration(timeInSeconds * 1000);
+
+  // Get the value in minutes, this can theoretically be more than 60.
+  const minutes = time.minutes();
+
+  // Get the entire value in milliseconds, then remove the extracted whole minutes, then
+  // divide by 1000 to get seconds and then round the value to get an integer.
+  const seconds = Math.floor((time.valueOf() - (minutes * 60 * 1000)) / 1000);
+
+  return `${padSection(minutes)}:${padSection(seconds)}`;
+}
+
 // Get the remaining time in minutes and seconds
 export function getRemainingTime({ start, duration, now }) {
-  const result = {
-    m: 0,
-    s: 0,
-    total: 0
-  };
+  let result = 0;
 
   if (duration) {
-    const delta = new Duration(duration - (now - start));
-
-    // Get the value in minutes, this can theoretically be more than 60.
-    result.m = delta.minutes();
-
-    // Get the entire value in milliseconds, then remove the extracted whole minutes, then
-    // divide by 1000 to get seconds and then round the value to get an integer.
-    result.s = Math.floor((delta.valueOf() - (result.m * 60 * 1000)) / 1000);
+    const delta = new Duration((duration * 1000) - (now - start));
 
     // The total time in seconds, when this reaches 0, we have finished the level.
-    result.total = delta.seconds();
+    result = delta.seconds();
   }
 
   return result;
@@ -74,3 +76,14 @@ export function createReducer(initialState, handlers) {
     return state;
   };
 }
+
+// Ensure we always return a string representation of a given blind
+export function getBlindString(val = null) {
+
+  if (val === null) {
+    return '-';
+  }
+
+  return val.toString();
+}
+

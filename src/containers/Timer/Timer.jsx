@@ -31,7 +31,7 @@ class Timer extends PureComponent {
     currentLevel: PropTypes.number.isRequired
   };
 
-  remainingTime = {};
+  remainingTime = 0;
   displayLevels = {};
 
   constructor(props) {
@@ -86,7 +86,7 @@ class Timer extends PureComponent {
   updateRemainingTime(newTime) {
 
     // Only udpate the component when the remaining time actually changes
-    if (this.remainingTime.total !== newTime.total) {
+    if (this.remainingTime !== newTime) {
       this.remainingTime = newTime;
 
       this.forceUpdate();
@@ -110,7 +110,7 @@ class Timer extends PureComponent {
         now: Date.now()
       }));
 
-      if (this.remainingTime.total < 0) {
+      if (this.remainingTime < 0) {
         this.handleTimeEnd();
       }
 
@@ -134,7 +134,7 @@ class Timer extends PureComponent {
 
     return (
       <section className="timer">
-        <Clock remainingTime={ this.remainingTime } totalTime={ timer.duration / 1000 } />
+        <Clock remainingTime={ this.remainingTime } totalTime={ timer.duration } />
         <Controls
           paused={ timer.paused }
           onPause={ this.handlePause }

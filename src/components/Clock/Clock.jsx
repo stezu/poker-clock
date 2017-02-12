@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { padSection } from '../../modules';
+import { formatTime } from '../../modules';
 import './Clock.scss';
 
 const PATH_WIDTH = 5;
@@ -31,7 +31,7 @@ function getPathColor(percent) {
 }
 
 export default function Clock({ remainingTime, totalTime }) {
-  const percent = 100 - (remainingTime.total / totalTime * 100);
+  const percent = 100 - (remainingTime / totalTime * 100);
   const pathWidth = getPathWidth(percent);
   const radius = 50 - (PATH_WIDTH / 2);
   const length = Math.PI * 2 * radius;
@@ -73,16 +73,12 @@ export default function Clock({ remainingTime, totalTime }) {
         x="50"
         y="50"
       >
-        { `${padSection(remainingTime.m)}:${padSection(remainingTime.s)}` }
+        { formatTime(remainingTime) }
       </text>
     </svg>
   );
 }
 Clock.propTypes = {
-  remainingTime: PropTypes.shape({
-    m: PropTypes.number,
-    s: PropTypes.number,
-    total: PropTypes.number
-  }).isRequired,
+  remainingTime: PropTypes.number.isRequired,
   totalTime: PropTypes.number.isRequired
 };

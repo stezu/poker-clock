@@ -7,34 +7,35 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { Table, TableRow, TableCell } from '../../components';
+import { formatTime, getBlindString } from '../../modules';
 import * as actions from '../../actions';
 import './Settings.scss';
 
 const DragHandle = SortableHandle(({ ...props }) =>
-  <TableCell key="sort" { ...props }>{ '=' }</TableCell>
+  <TableCell { ...props }>{ '=' }</TableCell>
 );
 
 const SortableItem = SortableElement(({ level }) => {
 
   if (level.type === 'break') {
     return (
-      <TableRow key={ level.id } cellCount={ 7 }>
-        <DragHandle />
+      <TableRow cellCount={ 7 }>
+        <DragHandle key="sort" />
         <TableCell key="break" colSpan={ 4 }>{ 'Break' }</TableCell>
-        <TableCell key="duration">{ level.duration }</TableCell>
+        <TableCell key="duration">{ formatTime(level.duration) }</TableCell>
         <TableCell key="delete">{ 'X' }</TableCell>
       </TableRow>
     );
   }
 
   return (
-    <TableRow key={ level.id } cellCount={ 7 }>
-      <DragHandle />
+    <TableRow cellCount={ 7 }>
+      <DragHandle key="sort" />
       <TableCell key="number">{ level.number }</TableCell>
-      <TableCell key="smallBlind">{ level.smallBlind }</TableCell>
-      <TableCell key="bigBlind">{ level.bigBlind }</TableCell>
-      <TableCell key="ante">{ level.ante }</TableCell>
-      <TableCell key="duration">{ level.duration }</TableCell>
+      <TableCell key="smallBlind">{ getBlindString(level.smallBlind) }</TableCell>
+      <TableCell key="bigBlind">{ getBlindString(level.bigBlind) }</TableCell>
+      <TableCell key="ante">{ getBlindString(level.ante) }</TableCell>
+      <TableCell key="duration">{ formatTime(level.duration) }</TableCell>
       <TableCell key="delete">{ 'X' }</TableCell>
     </TableRow>
   );
@@ -43,7 +44,7 @@ const SortableItem = SortableElement(({ level }) => {
 const SortableList = SortableContainer(({ levels }) => {
 
   const sortableLevels = levels.map((level, index) =>
-    <SortableItem key={ `item-${level.id}` } level={ level } index={ index } />
+    <SortableItem key={ `${level.id}` } level={ level } index={ index } />
   );
 
   return (

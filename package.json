@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "duration-js": "^3.9.2",
+    "node-uuid": "^1.4.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
