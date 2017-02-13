@@ -18,12 +18,6 @@
     "tournament",
     "clock"
   ],
-  "files": [
-    "LICENSE",
-    "README.md",
-    "src/",
-    "public/"
-  ],
   "author": "Stephen Zuniga <hello@stephenzuniga.com> (http://stephenzuniga.com/)",
   "license": "MIT",
   "bugs": {
