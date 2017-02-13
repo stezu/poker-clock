@@ -10,7 +10,7 @@ import {
 } from '../constants/actionTypes';
 import { arrayOfLength, createReducer } from '../modules';
 import { v4 as uuid } from 'node-uuid';
-import { arrayMove } from 'react-sortable-hoc';
+import update from 'immutability-helper';
 
 // Get the level configuration
 import { getLevelConfiguration } from '../config';
@@ -128,7 +128,14 @@ export default createReducer(getInitialState(), {
   },
 
   [EDIT_POSITION](state, action) {
-    return numberPlayLevels(arrayMove(state, action.oldIndex, action.newIndex));
+    const dragLevel = state[action.oldIndex];
+
+    return numberPlayLevels(update(state, {
+      $splice: [
+        [action.oldIndex, 1],
+        [action.newIndex, 0, dragLevel]
+      ]
+    }));
   },
 
   [REMOVE_LEVEL](state, action) {

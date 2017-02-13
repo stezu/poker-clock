@@ -15,11 +15,12 @@ export default class LevelInfo extends PureComponent {
     const level = this.props.displayLevels[position] || {};
 
     if (level.type === 'break') {
-      return <BreakLevel position={ position } />;
+      return <BreakLevel key={ level.id } position={ position } />;
     }
 
     return (
       <PlayLevel
+        key={ level.id }
         position={ position }
         ante={ level.ante }
         smallBlind={ level.smallBlind }
