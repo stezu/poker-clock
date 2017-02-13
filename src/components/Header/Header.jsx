@@ -4,7 +4,7 @@ import { CLOSE, COG } from '../../constants/icons';
 import './Header.scss';
 
 export default function Header() {
-  const settingsOpen = browserHistory.getCurrentLocation().pathname === '/settings';
+  const settingsOpen = browserHistory.getCurrentLocation().pathname.endsWith('/settings');
 
   return (
     <header className="header">

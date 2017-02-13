@@ -9,7 +9,7 @@ import {
   ADD_BREAK
 } from '../constants/actionTypes';
 import { arrayOfLength, createReducer } from '../modules';
-import { v4 as uuid } from 'node-uuid';
+import uuid from 'uuid/v4';
 import update from 'immutability-helper';
 
 // Get the level configuration
