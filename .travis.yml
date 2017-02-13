@@ -9,6 +9,6 @@ deploy:
     github_token: $GITHUB_TOKEN
     local_dir: build
     on:
-      tags: true
-      node: '6'
+      # tags: true
+      # node: '6'
       repo: stezu/poker-clock
