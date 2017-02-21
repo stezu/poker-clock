@@ -28,15 +28,20 @@ export const editDuration = (id, duration) => ({
   id,
   duration: new Duration(duration).valueOf()
 });
+export const editAnte = (id, ante) => ({
+  type: types.EDIT_ANTE,
+  id,
+  ante: Number(ante) || null
+});
 export const editBigBlind = (id, bigBlind) => ({
   type: types.EDIT_BIG_BLIND,
   id,
-  bigBlind
+  bigBlind: Number(bigBlind) || null
 });
 export const editSmallBlind = (id, smallBlind) => ({
   type: types.EDIT_SMALL_BLIND,
   id,
-  smallBlind
+  smallBlind: Number(smallBlind) || null
 });
 export const editPosition = (oldIndex, newIndex) => ({
   type: types.EDIT_POSITION,

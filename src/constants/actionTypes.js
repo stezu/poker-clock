@@ -7,6 +7,7 @@ export const RESUME_TIMER = 'RESUME_TIMER';
 // Levels
 export const RESET_LEVELS = 'RESET_LEVELS';
 export const EDIT_DURATION = 'EDIT_DURATION';
+export const EDIT_ANTE = 'EDIT_ANTE';
 export const EDIT_BIG_BLIND = 'EDIT_BIG_BLIND';
 export const EDIT_SMALL_BLIND = 'EDIT_SMALL_BLIND';
 export const EDIT_POSITION = 'EDIT_POSITION';

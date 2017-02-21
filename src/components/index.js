@@ -1,4 +1,5 @@
 import BreakLevel from './BreakLevel/BreakLevel';
+import BlindEditor from './BlindEditor/BlindEditor';
 import Button from './Button/Button';
 import Clock from './Clock/Clock';
 import Controls from './Controls/Controls';
@@ -14,6 +15,7 @@ import TableRow from './TableRow/TableRow';
 
 export {
   BreakLevel,
+  BlindEditor,
   Button,
   Clock,
   Controls,

@@ -1,0 +1,13 @@
+@import "atoms/variables";
+@import "atoms/extends";
+
+.blind-editor {
+  @extend %input-reset;
+  padding: 5px 0;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    background: rgba($color-accent, 0.12);
+  }
+}

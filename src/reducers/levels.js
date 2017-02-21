@@ -1,6 +1,7 @@
 import {
   RESET_LEVELS,
   EDIT_DURATION,
+  EDIT_ANTE,
   EDIT_BIG_BLIND,
   EDIT_SMALL_BLIND,
   EDIT_POSITION,
@@ -49,6 +50,7 @@ function createLevel(idx, type) {
 
   if (level.type === 'play') {
     level.duration = levelDuration;
+    level.ante = null;
     level.bigBlind = firstBigBlind * idx;
     level.smallBlind = level.bigBlind / 2;
   } else {
@@ -92,6 +94,20 @@ export default createReducer(getInitialState(), {
         return {
           ...level,
           duration: action.duration
+        };
+      }
+
+      return level;
+    });
+  },
+
+  [EDIT_ANTE](state, action) {
+    return state.map((level) => {
+
+      if (level.id === action.id) {
+        return {
+          ...level,
+          ante: action.ante
         };
       }
 
