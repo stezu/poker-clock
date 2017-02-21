@@ -1,22 +1,37 @@
-// Allow an anonymous arrow function here because react-sortable-hoc
-// does not pass the correct context to this component
-/* eslint-disable react/jsx-no-bind, new-cap */
-
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { LevelEditor } from '../../components';
+import { Button, LevelEditor } from '../../components';
 import * as actions from '../../actions';
 import './Settings.scss';
 
 function Settings({ actionCreators, levels }) {
 
+  function handleButtonClick(buttonType) {
+
+    return () => {
+
+      if (buttonType === 'play') {
+        actionCreators.addLevel();
+      } else {
+        actionCreators.addBreak();
+      }
+
+      // TODO: scroll to bottom
+    };
+  }
+
   return (
     <section className="poker-settings">
-      <LevelEditor
-        levels={ levels }
-        actionCreators={ actionCreators }
-      />
+      <LevelEditor levels={ levels } actionCreators={ actionCreators } />
+      <div className="level-controls">
+        <Button className="button--play" onClick={ handleButtonClick('play') }>
+          { 'Add Level' }
+        </Button>
+        <Button className="button--break" onClick={ handleButtonClick('break') }>
+          { 'Add Break' }
+        </Button>
+      </div>
     </section>
   );
 }

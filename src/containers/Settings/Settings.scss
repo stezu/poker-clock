@@ -1,10 +1,51 @@
 @import "atoms/variables";
 
 .poker-settings {
-  background: rgba($color-black, 0.25);
-  border-radius: 3px;
-  border: 1px solid rgba($color-accent, 0.2);
-  box-shadow: 0 0 3px rgba($color-black, 0.2);
-  margin: 5px 15px 15px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .level-editor {
+    background: rgba($color-black, 0.25);
+    border-radius: 3px;
+    border: 1px solid rgba($color-accent, 0.2);
+    box-shadow: 0 0 3px rgba($color-black, 0.2);
+    flex-grow: 1;
+    margin: 5px 15px 10px;
+    overflow-y: auto;
+  }
+
+  .level-controls {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    margin-bottom: 15px;
+
+    // TODO: abstract this out?
+    .button {
+      border: 1px solid rgba($color-accent, 0.2);
+      box-shadow: 0 3px 2px rgba($color-black, 0.2);
+      margin: 0 -1px;
+      padding: 5px 8px;
+      transition: opacity 150ms;
+
+      // TODO: pick a complementary color
+      &--play {
+        background: rgba($color-white, 0.08);
+        border-radius: 3px 0 0 3px;
+      }
+
+      // TODO: pick a complementary color
+      &--break {
+        background: rgba($color-black, 0.25);
+        border-radius: 0 3px 3px 0;
+      }
+
+      // TODO: add a "down" handler
+      &:hover,
+      &:focus {
+        opacity: 0.8;
+      }
+    }
+  }
 }
