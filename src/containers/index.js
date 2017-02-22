@@ -1,9 +1,3 @@
-import App from './App/App';
-import Timer from './Timer/Timer';
-import Settings from './Settings/Settings';
-
-export {
-  App,
-  Timer,
-  Settings
-};
+export { default as App } from './App/App';
+export { default as Timer } from './Timer/Timer';
+export { default as Settings } from './Settings/Settings';
