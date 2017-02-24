@@ -83,14 +83,23 @@ class Timer extends PureComponent {
     startLevel(actionCreators, this.displayLevels.next);
   }
 
-  updateRemainingTime({ startTime, duration }) {
-    const newTime = getRemainingTime({
-      start: startTime,
-      duration,
-      now: Date.now()
-    });
+  calculateRemainingTime() {
+    const { timer } = this.props;
+    const now = timer.paused ?
+      timer.startTime + timer.elapsedTime :
+      Date.now();
 
-    // Only udpate the component when the remaining time actually changes
+    return getRemainingTime({
+      start: timer.startTime,
+      duration: timer.duration,
+      now
+    });
+  }
+
+  updateRemainingTime() {
+    const newTime = this.calculateRemainingTime();
+
+    // Only update the component when the remaining time actually changes
     if (this.remainingTime !== newTime) {
       this.remainingTime = newTime;
 
@@ -104,7 +113,7 @@ class Timer extends PureComponent {
       const { timer } = this.props;
 
       if (!timer.paused) {
-        this.updateRemainingTime(timer);
+        this.updateRemainingTime();
 
         if (this.remainingTime < 0) {
           this.handleTimeEnd();
@@ -127,6 +136,7 @@ class Timer extends PureComponent {
   render() {
     const { timer, levels, currentLevel } = this.props;
 
+    this.remainingTime = this.calculateRemainingTime();
     this.displayLevels = getLevelsForDisplay(levels, currentLevel);
 
     return (
