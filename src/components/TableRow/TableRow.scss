@@ -1,8 +1,14 @@
 @import "atoms/variables";
 
 .table__row {
+  align-items: center;
   display: flex;
+  height: 35px;
   text-align: center;
+
+  &:nth-child(even) {
+    background: rgba($color-accent, 0.1);
+  }
 
   &:not(:first-child) {
     border-top: 1px solid rgba($color-white, 0.05);
