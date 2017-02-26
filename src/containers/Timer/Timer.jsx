@@ -79,8 +79,9 @@ class Timer extends PureComponent {
   handleTimeEnd() {
     const { actionCreators } = this.props;
 
+    // Increment the level, then start timer for the current level (which is now correct)
     actionCreators.incrementLevel();
-    startLevel(actionCreators, this.displayLevels.next);
+    startLevel(actionCreators, this.displayLevels.current);
   }
 
   calculateRemainingTime() {
