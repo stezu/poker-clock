@@ -13,7 +13,7 @@ function getTotalNumberOfLevels(numberOfPlayLevels, breakAfterXPlayLevels) {
 }
 
 export function getLevelConfiguration() {
-  const numberOfPlayLevels = 120;
+  const numberOfPlayLevels = 32;
   const breakAfterXPlayLevels = 4;
 
   return {
