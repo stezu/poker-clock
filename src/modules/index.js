@@ -87,3 +87,7 @@ export function getBlindString(val = null) {
   return val.toString();
 }
 
+// Capitalize the first letter of a string
+export function capitalizeString(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

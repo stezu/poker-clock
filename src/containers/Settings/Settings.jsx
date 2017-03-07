@@ -2,19 +2,19 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, LevelEditor } from '../../components';
-import * as actions from '../../actions';
+import * as actionCreators from '../../actions';
 import './Settings.scss';
 
-function Settings({ actionCreators, levels }) {
+function Settings({ actions, levels }) {
 
   function handleButtonClick(buttonType) {
 
     return () => {
 
       if (buttonType === 'play') {
-        actionCreators.addLevel();
+        actions.addLevel();
       } else {
-        actionCreators.addBreak();
+        actions.addBreak();
       }
 
       // TODO: scroll to bottom
@@ -23,7 +23,7 @@ function Settings({ actionCreators, levels }) {
 
   return (
     <section className="poker-settings">
-      <LevelEditor levels={ levels } actionCreators={ actionCreators } />
+      <LevelEditor levels={ levels } actions={ actions } />
       <div className="level-controls">
         <Button className="button--play" onClick={ handleButtonClick('play') }>
           { 'Add Level' }
@@ -36,7 +36,7 @@ function Settings({ actionCreators, levels }) {
   );
 }
 Settings.propTypes = {
-  actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
   levels: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
@@ -45,7 +45,7 @@ const mapStateToProps = ({ levels }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actionCreators: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionCreators, dispatch)
 });
 
 export default connect(
