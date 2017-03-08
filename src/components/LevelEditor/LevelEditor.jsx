@@ -1,35 +1,111 @@
-// Allow an anonymous arrow function here because react-sortable-hoc
-// does not pass the correct context to this component
-/* eslint-disable react/jsx-no-bind, new-cap */
+/* eslint-disable new-cap */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
+import { AutoSizer, List } from 'react-virtualized';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { BlindEditor, Button, Icon, Table, TableRow, TableCell } from '../';
+import { BlindEditor, Button, Icon } from '../';
 import { formatTime } from '../../modules';
+import './LevelEditor.scss';
 
 const DragHandle = SortableHandle(() =>
   <span className="sort-grip" />
 );
 
-const SortableItem = SortableElement(({
-  level,
-  onRemoveLevel,
-  onAnteChange,
-  onSmallBlindChange,
-  onBigBlindChange
-}) => {
-  const cellCount = 11;
+const SortableItem = SortableElement(({ className, children, ...restProps }) =>
+  <div
+    className={ className }
+    { ...restProps }
+  >
+    { children }
+  </div>
+);
 
-  if (level.type === 'break') {
+const SortableList = SortableContainer(({ setRef, rowRenderer, width, height, levels }) =>
+  <List
+    ref={ setRef }
+    rowRenderer={ rowRenderer }
+    height={ height }
+    rowCount={ levels.length }
+    rowHeight={ 35 }
+    width={ width }
+  />
+);
+
+function getCellClassName(cellName) {
+  return `table-cell table-cell--${cellName}`;
+}
+
+export default class LevelEditor extends PureComponent {
+  static propTypes = {
+    actions: PropTypes.objectOf(PropTypes.func).isRequired,
+    levels: PropTypes.arrayOf(PropTypes.object).isRequired
+  };
+
+  list = null;
+
+  constructor(props) {
+    super(props);
+
+    this.setListRef = this.setListRef.bind(this);
+    this.handleSmallBlindChange = this.handleSmallBlindChange.bind(this);
+    this.handleBigBlindChange = this.handleBigBlindChange.bind(this);
+    this.handleAnteChange = this.handleAnteChange.bind(this);
+    this.handleRemoveLevel = this.handleRemoveLevel.bind(this);
+    this.handleSortEnd = this.handleSortEnd.bind(this);
+    this.renderBreakLevel = this.renderBreakLevel.bind(this);
+    this.renderPlayLevel = this.renderPlayLevel.bind(this);
+    this.rowRenderer = this.rowRenderer.bind(this);
+  }
+
+  setListRef(elem) {
+    this.list = elem;
+  }
+
+  handleSmallBlindChange(id, { target }) {
+    this.props.actions.editSmallBlind(id, target.value);
+  }
+
+  handleBigBlindChange(id, { target }) {
+    this.props.actions.editBigBlind(id, target.value);
+  }
+
+  handleAnteChange(id, { target }) {
+    this.props.actions.editAnte(id, target.value);
+  }
+
+  handleRemoveLevel(id) {
+    this.props.actions.removeLevel(id);
+  }
+
+  handleSortEnd({ oldIndex, newIndex }) {
+
+    // Don't dispatch the state change unless
+    // the item actually moves.
+    if (oldIndex !== newIndex) {
+      this.props.actions.editPosition(oldIndex, newIndex);
+      this.list.forceUpdateGrid();
+    }
+  }
+
+  renderBreakLevel({ className, index, style, level }) {
+    const { id, duration } = level;
+
     return (
-      <TableRow cellCount={ cellCount }>
-        <TableCell key="sort"><DragHandle key="sort" /></TableCell>
-        <TableCell key="break" colSpan={ 7 }>{ 'Break' }</TableCell>
-        <TableCell key="duration" colSpan={ 2 }>{ formatTime(level.duration) }</TableCell>
-        <TableCell key="delete">
+      <SortableItem
+        className={ className }
+        key={ id }
+        index={ index }
+        style={ style }
+      >
+        <div key="sort" className={ getCellClassName('sort') }>
+          <DragHandle />
+        </div>
+        <div key="break" className={ getCellClassName('break') }>{ 'Break' }</div>
+        <div key="duration" className={ getCellClassName('duration') }>{ formatTime(duration) }</div>
+        <div key="delete" className={ getCellClassName('delete') }>
           <Button
-            onClick={ onRemoveLevel }
-            clickProps={ [level.id] }
+            onClick={ this.handleRemoveLevel }
+            clickProps={ [id] }
             title="Remove Level"
             tabIndex="-1"
           >
@@ -40,97 +116,102 @@ const SortableItem = SortableElement(({
               } }
             />
           </Button>
-        </TableCell>
-      </TableRow>
+        </div>
+      </SortableItem>
     );
   }
 
-  return (
-    <TableRow cellCount={ cellCount }>
-      <TableCell key="sort"><DragHandle key="sort" /></TableCell>
-      <TableCell key="number">{ level.number }</TableCell>
-      <TableCell key="smallBlind" colSpan={ 2 }>
+  renderPlayLevel({ className, index, style, level }) {
+    const { id, number, smallBlind, bigBlind, ante, duration } = level;
+
+    return (
+      <SortableItem
+        className={ className }
+        key={ id }
+        index={ index }
+        style={ style }
+      >
+        <div key="sort" className={ getCellClassName('sort') }>
+          <DragHandle />
+        </div>
+        <div key="number" className={ getCellClassName('number') }>{ number }</div>
         <BlindEditor
-          value={ level.smallBlind }
-          onChange={ onSmallBlindChange }
-          changeProps={ [level.id] }
+          key="smallBlind"
+          className={ getCellClassName('smallBlind') }
+          value={ smallBlind }
+          onChange={ this.handleSmallBlindChange }
+          changeProps={ [id] }
         />
-      </TableCell>
-      <TableCell key="bigBlind" colSpan={ 2 }>
         <BlindEditor
-          value={ level.bigBlind }
-          onChange={ onBigBlindChange }
-          changeProps={ [level.id] }
+          key="bigBlind"
+          className={ getCellClassName('bigBlind') }
+          value={ bigBlind }
+          onChange={ this.handleBigBlindChange }
+          changeProps={ [id] }
         />
-      </TableCell>
-      <TableCell key="ante" colSpan={ 2 }>
         <BlindEditor
-          value={ level.ante }
-          onChange={ onAnteChange }
-          changeProps={ [level.id] }
+          key="ante"
+          className={ getCellClassName('ante') }
+          value={ ante }
+          onChange={ this.handleAnteChange }
+          changeProps={ [id] }
         />
-      </TableCell>
-      <TableCell key="duration" colSpan={ 2 }>{ formatTime(level.duration) }</TableCell>
-      <TableCell key="delete">
-        <Button
-          onClick={ onRemoveLevel }
-          clickProps={ [level.id] }
-          title="Remove Level"
-          tabIndex="-1"
-        >
-          <Icon
-            name="close"
-            style={ {
-              fill: '#ff0000'
-            } }
-          />
-        </Button>
-      </TableCell>
-    </TableRow>
-  );
-});
-
-const SortableList = SortableContainer(({ className, levels, ...itemProps }) => {
-
-  const sortableLevels = levels.map((level, index) =>
-    <SortableItem
-      key={ level.id }
-      index={ index }
-      level={ level }
-      { ...itemProps }
-    />
-  );
-
-  return (
-    <Table className={ className }>{ sortableLevels }</Table>
-  );
-});
-
-export default function LevelEditor({ actionCreators, levels }) {
-
-  function onSortEnd({ oldIndex, newIndex }) {
-
-    // Don't dispatch the state change unless
-    // the item actually moves.
-    if (oldIndex !== newIndex) {
-      actionCreators.editPosition(oldIndex, newIndex);
-    }
+        <div key="duration" className={ getCellClassName('duration') }>{ formatTime(duration) }</div>
+        <div key="delete" className={ getCellClassName('delete') }>
+          <Button
+            onClick={ this.handleRemoveLevel }
+            clickProps={ [id] }
+            title="Remove Level"
+            tabIndex="-1"
+          >
+            <Icon
+              name="close"
+              style={ {
+                fill: '#ff0000'
+              } }
+            />
+          </Button>
+        </div>
+      </SortableItem>
+    );
   }
 
-  return (
-    <SortableList
-      className="level-editor"
-      levels={ levels }
-      onSortEnd={ onSortEnd }
-      onRemoveLevel={ (id) => actionCreators.removeLevel(id) }
-      onAnteChange={ (id, { target }) => actionCreators.editAnte(id, target.value) }
-      onSmallBlindChange={ (id, { target }) => actionCreators.editSmallBlind(id, target.value) }
-      onBigBlindChange={ (id, { target }) => actionCreators.editBigBlind(id, target.value) }
-      useDragHandle
-    />
-  );
+  rowRenderer({ index, style }) {
+    const level = this.props.levels[index];
+    const className = index % 2 === 0 ?
+      'table-row table-row--even' :
+      'table-row table-row--odd';
+    const renderMethod = level.type === 'break' ?
+      this.renderBreakLevel :
+      this.renderPlayLevel;
+
+    return renderMethod({
+      className,
+      index,
+      style,
+      level
+    });
+  }
+
+  render() {
+    const { levels } = this.props;
+
+    return (
+      <div className="level-editor">
+        <AutoSizer>
+          { ({ height, width }) =>
+            <SortableList
+              setRef={ this.setListRef }
+              rowRenderer={ this.rowRenderer }
+              height={ height }
+              width={ width }
+              levels={ levels }
+              onSortEnd={ this.handleSortEnd }
+              useDragHandle
+            />
+          }
+        </AutoSizer>
+      </div>
+    );
+  }
 }
-LevelEditor.propTypes = {
-  actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
-  levels: PropTypes.arrayOf(PropTypes.object).isRequired
-};

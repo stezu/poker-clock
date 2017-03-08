@@ -1,30 +1,50 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import './Button.scss';
 
-export default function Button({ children, onClick, clickProps, className, ...restProps }) {
+export default class Button extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
+    clickProps: PropTypes.arrayOf(PropTypes.any),
+    disabled: PropTypes.bool,
+    onClick: PropTypes.func.isRequired,
+    tabIndex: PropTypes.string,
+    title: PropTypes.string
+  };
+  static defaultProps = {
+    children: null,
+    className: '',
+    clickProps: [],
+    disabled: false,
+    tabIndex: '',
+    title: ''
+  };
 
-  function handleClick(...args) {
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(...args) {
+    const { onClick, clickProps } = this.props;
+
     onClick(...clickProps, ...args);
   }
 
-  return (
-    <button
-      className={ `button ${className}` }
-      onClick={ handleClick }
-      { ...restProps }
-    >
-      { children }
-    </button>
-  );
+  render() {
+    const { children, className, disabled, tabIndex, title } = this.props;
+
+    return (
+      <button
+        className={ `button ${className}` }
+        onClick={ this.handleClick }
+        disabled={ disabled }
+        tabIndex={ tabIndex }
+        title={ title }
+      >
+        { children }
+      </button>
+    );
+  }
 }
-Button.propTypes = {
-  children: PropTypes.node,
-  onClick: PropTypes.func.isRequired,
-  clickProps: PropTypes.arrayOf(PropTypes.any),
-  className: PropTypes.string
-};
-Button.defaultProps = {
-  children: null,
-  clickProps: [],
-  className: ''
-};

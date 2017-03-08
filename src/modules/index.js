@@ -86,4 +86,3 @@ export function getBlindString(val = null) {
 
   return val.toString();
 }
-
