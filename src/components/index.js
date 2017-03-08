@@ -9,6 +9,3 @@ export { default as Icon } from './Icon/Icon';
 export { default as LevelEditor } from './LevelEditor/LevelEditor';
 export { default as LevelInfo } from './LevelInfo/LevelInfo';
 export { default as PlayLevel } from './PlayLevel/PlayLevel';
-export { default as Table } from './Table/Table';
-export { default as TableCell } from './TableCell/TableCell';
-export { default as TableRow } from './TableRow/TableRow';
