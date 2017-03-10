@@ -3,8 +3,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { AutoSizer, List } from 'react-virtualized';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { BlindEditor, Button, Icon } from '../';
-import { formatTime } from '../../modules';
+import { BlindEditor, Button, DurationEditor, Icon } from '../';
 import './LevelEditor.scss';
 
 const DragHandle = SortableHandle(() =>
@@ -52,6 +51,7 @@ export default class LevelEditor extends PureComponent {
     this.handleSmallBlindChange = this.handleSmallBlindChange.bind(this);
     this.handleBigBlindChange = this.handleBigBlindChange.bind(this);
     this.handleAnteChange = this.handleAnteChange.bind(this);
+    this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handleRemoveLevel = this.handleRemoveLevel.bind(this);
     this.handleSortEnd = this.handleSortEnd.bind(this);
     this.renderBreakLevel = this.renderBreakLevel.bind(this);
@@ -77,6 +77,10 @@ export default class LevelEditor extends PureComponent {
 
   handleAnteChange(id, { target }) {
     this.props.actions.editAnte(id, target.value);
+  }
+
+  handleDurationChange(id, { target }) {
+    this.props.actions.editDuration(id, target.value);
   }
 
   handleRemoveLevel(id) {
@@ -111,7 +115,13 @@ export default class LevelEditor extends PureComponent {
           <DragHandle />
         </div>
         <div key="break" className={ getCellClassName('break') }>{ 'Break' }</div>
-        <div key="duration" className={ getCellClassName('duration') }>{ formatTime(duration) }</div>
+        <DurationEditor
+          key="duration"
+          className={ getCellClassName('duration') }
+          value={ duration }
+          onChange={ this.handleDurationChange }
+          changeProps={ [id] }
+        />
         <div key="delete" className={ getCellClassName('delete') }>
           <Button
             onClick={ this.handleRemoveLevel }
@@ -166,7 +176,13 @@ export default class LevelEditor extends PureComponent {
           onChange={ this.handleAnteChange }
           changeProps={ [id] }
         />
-        <div key="duration" className={ getCellClassName('duration') }>{ formatTime(duration) }</div>
+        <DurationEditor
+          key="duration"
+          className={ getCellClassName('duration') }
+          value={ duration }
+          onChange={ this.handleDurationChange }
+          changeProps={ [id] }
+        />
         <div key="delete" className={ getCellClassName('delete') }>
           <Button
             onClick={ this.handleRemoveLevel }

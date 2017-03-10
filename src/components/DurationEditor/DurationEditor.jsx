@@ -1,8 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { getBlindString } from '../../modules';
-import './BlindEditor.scss';
+import './DurationEditor.scss';
 
-export default class BlindEditor extends PureComponent {
+export default class DurationEditor extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     value: PropTypes.number,
@@ -32,14 +31,10 @@ export default class BlindEditor extends PureComponent {
 
     return (
       <input
-        className={ `blind-editor ${className}` }
-        defaultValue={ getBlindString(value) }
+        className={ `duration-editor ${className}` }
+        defaultValue={ value }
         onChange={ this.handleChange }
-        type="number"
-        inputMode="numeric"
-        min="0"
-        max="100000000"
-        step="1"
+        type="tel"
       />
     );
   }

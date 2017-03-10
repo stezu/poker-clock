@@ -1,5 +1,4 @@
 import * as types from '../constants/actionTypes';
-import Duration from 'duration-js';
 
 // Timer Actions
 export const resetTimer = () => ({
@@ -26,7 +25,7 @@ export const resetLevels = () => ({
 export const editDuration = (id, duration) => ({
   type: types.EDIT_DURATION,
   id,
-  duration: new Duration(duration).valueOf()
+  duration: Number(duration) || null
 });
 export const editAnte = (id, ante) => ({
   type: types.EDIT_ANTE,
