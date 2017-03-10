@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { formatTime } from '../../modules';
 import './Clock.scss';
 
@@ -30,58 +30,62 @@ function getPathColor(percent) {
   return '#00FF00';
 }
 
-export default function Clock({ remainingTime, totalTime }) {
-  const percent = 100 - (remainingTime / totalTime * 100);
-  const pathWidth = getPathWidth(percent);
-  const radius = 50 - (PATH_WIDTH / 2);
-  const length = Math.PI * 2 * radius;
-  const pathString = `M 50,50 m 0,-${radius}
-    a ${radius},${radius} 0 1 1 0,${2 * radius}
-    a ${radius},${radius} 0 1 1 0,-${2 * radius}`;
-  const pathStyle = {
-    strokeDasharray: `${length}px ${length}px`,
-    strokeDashoffset: `${((100 - percent) / 100 * length)}px`,
-    transition: 'stroke-dashoffset 0.3s ease 0s, stroke-width 0.3s ease, stroke 0.3s ease'
+export default class Clock extends PureComponent {
+  static propTypes = {
+    remainingTime: PropTypes.number.isRequired,
+    totalTime: PropTypes.number
+  };
+  static defaultProps = {
+    totalTime: null
   };
 
-  return (
-    <svg
-      className="clock"
-      viewBox="0 0 100 100"
-    >
-      <path
-        className="clock__circle-trail"
-        d={ pathString }
-        stroke="#CDCDCD"
-        strokeWidth="1"
-        fillOpacity="0"
-      />
-      <path
-        className="clock__circle-path"
-        d={ pathString }
-        strokeLinecap="butt"
-        stroke={ getPathColor(percent) }
-        strokeWidth={ pathWidth }
-        fillOpacity="0"
-        style={ pathStyle }
-      />
-      <text
-        className="clock__display"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fill="#FFFFFF"
-        x="50"
-        y="50"
+  render() {
+    const { remainingTime, totalTime } = this.props;
+    const percent = 100 - (remainingTime / totalTime * 100);
+    const radius = 50 - (PATH_WIDTH / 2);
+    const length = Math.PI * 2 * radius;
+    const pathString = `M 50,50 m 0,-${radius}
+      a ${radius},${radius} 0 1 1 0,${2 * radius}
+      a ${radius},${radius} 0 1 1 0,-${2 * radius}`;
+
+    global.console.log(this.props.currentLevel);
+
+    return (
+      <svg
+        className="clock"
+        viewBox="0 0 100 100"
       >
-        { formatTime(remainingTime) }
-      </text>
-    </svg>
-  );
+        <path
+          className="clock__circle-trail"
+          d={ pathString }
+          stroke="#CDCDCD"
+          strokeWidth="1"
+          fillOpacity="0"
+        />
+        <path
+          className="clock__circle-path"
+          d={ pathString }
+          strokeLinecap="butt"
+          stroke={ getPathColor(percent) }
+          strokeWidth={ getPathWidth(percent) }
+          fillOpacity="0"
+          style={ {
+            strokeDasharray: `${length}px ${length}px`,
+            strokeDashoffset: `${((100 - percent) / 100 * length)}px`,
+            transition: 'stroke-dashoffset 0.3s ease 0s, stroke-width 0.3s ease, stroke 0.3s ease'
+          } }
+        />
+        <text
+          className="clock__display"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill="#FFFFFF"
+          x="50"
+          y="50"
+        >
+          { formatTime(remainingTime) }
+        </text>
+      </svg>
+    );
+  }
 }
-Clock.propTypes = {
-  remainingTime: PropTypes.number.isRequired,
-  totalTime: PropTypes.number
-};
-Clock.defaultProps = {
-  totalTime: null
-};
