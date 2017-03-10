@@ -1,20 +1,20 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import * as actionCreators from '../../actions';
 import { Clock, Controls } from '../../components';
 import { getRemainingTime, getLevelsForDisplay } from '../../modules';
 import './Timer.scss';
 
-function startLevel(actionCreators, level) {
+function startLevel(actions, level) {
 
   if (level) {
-    actionCreators.startTimer(level);
+    actions.startTimer(level);
 
     return;
   }
 
-  actionCreators.resetTimer();
+  actions.resetTimer();
 }
 
 class Timer extends PureComponent {
@@ -26,7 +26,7 @@ class Timer extends PureComponent {
       paused: PropTypes.bool,
       started: PropTypes.bool
     }).isRequired,
-    actionCreators: PropTypes.objectOf(PropTypes.func).isRequired,
+    actions: PropTypes.objectOf(PropTypes.func).isRequired,
     levels: PropTypes.arrayOf(PropTypes.object).isRequired,
     currentLevel: PropTypes.number.isRequired
   };
@@ -45,43 +45,43 @@ class Timer extends PureComponent {
   }
 
   handlePause() {
-    const { actionCreators } = this.props;
+    const { actions } = this.props;
 
-    actionCreators.pauseTimer();
+    actions.pauseTimer();
   }
 
   handleResume() {
-    const { timer, actionCreators } = this.props;
+    const { timer, actions } = this.props;
 
     if (!timer.started) {
-      startLevel(actionCreators, this.displayLevels.current);
+      startLevel(actions, this.displayLevels.current);
 
       return;
     }
 
-    actionCreators.resumeTimer();
+    actions.resumeTimer();
   }
 
   handlePrev() {
-    const { actionCreators } = this.props;
+    const { actions } = this.props;
 
-    actionCreators.decrementLevel();
-    startLevel(actionCreators, this.displayLevels.previous);
+    actions.decrementLevel();
+    startLevel(actions, this.displayLevels.previous);
   }
 
   handleNext() {
-    const { actionCreators } = this.props;
+    const { actions } = this.props;
 
-    actionCreators.incrementLevel();
-    startLevel(actionCreators, this.displayLevels.next);
+    actions.incrementLevel();
+    startLevel(actions, this.displayLevels.next);
   }
 
   handleTimeEnd() {
-    const { actionCreators } = this.props;
+    const { actions } = this.props;
 
     // Increment the level, then start timer for the current level (which is now correct)
-    actionCreators.incrementLevel();
-    startLevel(actionCreators, this.displayLevels.current);
+    actions.incrementLevel();
+    startLevel(actions, this.displayLevels.current);
   }
 
   calculateRemainingTime() {
@@ -142,7 +142,10 @@ class Timer extends PureComponent {
 
     return (
       <section className="timer">
-        <Clock remainingTime={ this.remainingTime } totalTime={ timer.duration } />
+        <Clock
+          remainingTime={ this.remainingTime }
+          totalTime={ timer.duration }
+        />
         <Controls
           paused={ timer.paused }
           onPause={ this.handlePause }
@@ -164,7 +167,7 @@ const mapStateToProps = ({ timer, levels, currentLevel }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actionCreators: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionCreators, dispatch)
 });
 
 export default connect(
