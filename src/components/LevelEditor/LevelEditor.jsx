@@ -81,6 +81,10 @@ export default class LevelEditor extends PureComponent {
 
   handleRemoveLevel(id) {
     this.props.actions.removeLevel(id);
+
+    // Reset the timer so that we don't have any issues of the
+    // timer counting down with the wrong duration.
+    this.props.actions.resetTimer();
   }
 
   handleSortEnd({ oldIndex, newIndex }) {
