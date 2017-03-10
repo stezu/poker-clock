@@ -43,9 +43,11 @@ export default class LevelEditor extends PureComponent {
 
   list = null;
 
+  // eslint-disable-next-line max-statements
   constructor(props) {
     super(props);
 
+    this.scrollToBottom = this.scrollToBottom.bind(this);
     this.setListRef = this.setListRef.bind(this);
     this.handleSmallBlindChange = this.handleSmallBlindChange.bind(this);
     this.handleBigBlindChange = this.handleBigBlindChange.bind(this);
@@ -55,6 +57,10 @@ export default class LevelEditor extends PureComponent {
     this.renderBreakLevel = this.renderBreakLevel.bind(this);
     this.renderPlayLevel = this.renderPlayLevel.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
+  }
+
+  scrollToBottom() {
+    this.list.scrollToRow(this.props.levels.length);
   }
 
   setListRef(elem) {
@@ -181,16 +187,18 @@ export default class LevelEditor extends PureComponent {
     const className = index % 2 === 0 ?
       'table-row table-row--even' :
       'table-row table-row--odd';
-    const renderMethod = level.type === 'break' ?
-      this.renderBreakLevel :
-      this.renderPlayLevel;
-
-    return renderMethod({
+    const renderOptions = {
       className,
       index,
       style,
       level
-    });
+    };
+
+    if (level.type === 'break') {
+      return this.renderBreakLevel(renderOptions);
+    }
+
+    return this.renderPlayLevel(renderOptions);
   }
 
   render() {
