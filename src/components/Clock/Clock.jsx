@@ -48,8 +48,6 @@ export default class Clock extends PureComponent {
       a ${radius},${radius} 0 1 1 0,${2 * radius}
       a ${radius},${radius} 0 1 1 0,-${2 * radius}`;
 
-    global.console.log(this.props.currentLevel);
-
     return (
       <svg
         className="clock"
