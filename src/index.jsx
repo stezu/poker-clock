@@ -10,7 +10,7 @@ import reducer from './reducers';
 const store = createStore(reducer);
 
 const browserHistory = useBasename(createHistory)({
-  basename: '/poker-clock'
+  basename: process.env.PUBLIC_URL // eslint-disable-line no-process-env
 });
 
 render(
