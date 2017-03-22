@@ -1,4 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
+import { formatTime, getSecondsFromTime } from '../../modules';
 import './DurationEditor.scss';
 
 export default class DurationEditor extends PureComponent {
@@ -20,10 +21,10 @@ export default class DurationEditor extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(...args) {
+  handleChange({ target }) {
     const { onChange, changeProps } = this.props;
 
-    onChange(...changeProps, ...args);
+    onChange(...changeProps, getSecondsFromTime(target.value));
   }
 
   render() {
@@ -32,7 +33,7 @@ export default class DurationEditor extends PureComponent {
     return (
       <input
         className={ `duration-editor ${className}` }
-        defaultValue={ value }
+        defaultValue={ formatTime(value) }
         onChange={ this.handleChange }
         type="tel"
       />

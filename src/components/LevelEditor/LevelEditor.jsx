@@ -67,20 +67,20 @@ export default class LevelEditor extends PureComponent {
     this.list = elem;
   }
 
-  handleSmallBlindChange(id, { target }) {
-    this.props.actions.editSmallBlind(id, target.value);
+  handleSmallBlindChange(id, value) {
+    this.props.actions.editSmallBlind(id, value);
   }
 
-  handleBigBlindChange(id, { target }) {
-    this.props.actions.editBigBlind(id, target.value);
+  handleBigBlindChange(id, value) {
+    this.props.actions.editBigBlind(id, value);
   }
 
-  handleAnteChange(id, { target }) {
-    this.props.actions.editAnte(id, target.value);
+  handleAnteChange(id, value) {
+    this.props.actions.editAnte(id, value);
   }
 
-  handleDurationChange(id, { target }) {
-    this.props.actions.editDuration(id, target.value);
+  handleDurationChange(id, value) {
+    this.props.actions.editDuration(id, value);
   }
 
   handleRemoveLevel(id) {

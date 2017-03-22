@@ -21,6 +21,7 @@ function padSection(num) {
   return `00${str}`.slice(-2);
 }
 
+// Convert a number of seconds to a display format of mm:ss
 export function formatTime(timeInSeconds) {
   const time = new Duration(timeInSeconds * 1000);
 
@@ -32,6 +33,18 @@ export function formatTime(timeInSeconds) {
   const seconds = Math.floor((time.valueOf() - (minutes * 60 * 1000)) / 1000);
 
   return `${padSection(minutes)}:${padSection(seconds)}`;
+}
+
+// Given a string representation of mm:ss return that time in seconds
+export function getSecondsFromTime(time) {
+  const [minutes, seconds] = time.split(':');
+  let result = 0;
+
+  // Add time to the result
+  result += parseInt(minutes, 10) * 60;
+  result += parseInt(seconds, 10);
+
+  return result;
 }
 
 // Get the remaining time in minutes and seconds

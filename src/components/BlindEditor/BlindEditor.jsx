@@ -21,10 +21,10 @@ export default class BlindEditor extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(...args) {
+  handleChange({ target }) {
     const { onChange, changeProps } = this.props;
 
-    onChange(...changeProps, ...args);
+    onChange(...changeProps, target.value);
   }
 
   render() {
