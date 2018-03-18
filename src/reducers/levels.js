@@ -1,3 +1,6 @@
+import uuid from 'uuid/v4';
+import update from 'immutability-helper';
+
 import {
   RESET_LEVELS,
   EDIT_DURATION,
@@ -8,13 +11,11 @@ import {
   REMOVE_LEVEL,
   ADD_LEVEL,
   ADD_BREAK
-} from '../constants/actionTypes';
-import { arrayOfLength, createReducer } from '../modules';
-import uuid from 'uuid/v4';
-import update from 'immutability-helper';
+} from '@/constants/actionTypes';
+import { arrayOfLength, createReducer } from '@/modules';
 
 // Get the level configuration
-import { getLevelConfiguration } from '../config';
+import { getLevelConfiguration } from '@/config';
 
 // Each level of play needs to have a number. This function
 // adds that auto-incrementing number starting at 1.

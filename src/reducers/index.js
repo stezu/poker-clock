@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import timer from './timer';
 import levels from './levels';
 import currentLevel from './currentLevel';

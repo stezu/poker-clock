@@ -1,5 +1,8 @@
-import React, { PropTypes, PureComponent } from 'react';
-import * as icons from '../../constants/icons';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
+import * as icons from '@/constants/icons';
+
 import './Icon.scss';
 
 export default class Icon extends PureComponent {

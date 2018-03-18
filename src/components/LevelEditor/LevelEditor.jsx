@@ -1,9 +1,12 @@
 /* eslint-disable new-cap */
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { AutoSizer, List } from 'react-virtualized';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { BlindEditor, Button, DurationEditor, Icon } from '../';
+
+import { BlindEditor, Button, DurationEditor, Icon } from '@/components';
+
 import './LevelEditor.scss';
 
 const DragHandle = SortableHandle(() =>

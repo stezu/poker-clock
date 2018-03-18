@@ -1,5 +1,8 @@
-import React, { PropTypes, PureComponent } from 'react';
-import { getBlindString } from '../../modules';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
+import { getBlindString } from '@/modules';
+
 import './BlindEditor.scss';
 
 export default class BlindEditor extends PureComponent {

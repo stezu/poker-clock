@@ -3,8 +3,8 @@ import {
   START_TIMER,
   PAUSE_TIMER,
   RESUME_TIMER
-} from '../constants/actionTypes';
-import { createReducer } from '../modules';
+} from '@/constants/actionTypes';
+import { createReducer } from '@/modules';
 
 const initialState = {
   startTime: null,

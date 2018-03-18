@@ -1,5 +1,8 @@
-import React, { PropTypes, PureComponent } from 'react';
-import { formatTime, getSecondsFromTime } from '../../modules';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
+import { formatTime, getSecondsFromTime } from '@/modules';
+
 import './DurationEditor.scss';
 
 export default class DurationEditor extends PureComponent {
