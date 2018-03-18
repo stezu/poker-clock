@@ -18,17 +18,11 @@ export default class BlindEditor extends PureComponent {
     changeProps: []
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange({ target }) {
+  handleChange = ({ target }) => {
     const { onChange, changeProps } = this.props;
 
     onChange(...changeProps, target.value);
-  }
+  };
 
   render() {
     const { className, value } = this.props;

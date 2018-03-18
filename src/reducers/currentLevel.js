@@ -6,7 +6,7 @@ import { createReducer } from '@/modules';
 
 const initialState = 0;
 
-export default createReducer(initialState, {
+const currentLevelReducer = createReducer(initialState, {
 
   [INCREMENT_CURRENT_LEVEL](state) {
     return state + 1;
@@ -16,3 +16,5 @@ export default createReducer(initialState, {
     return state - 1;
   }
 });
+
+export default currentLevelReducer;

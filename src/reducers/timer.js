@@ -14,7 +14,7 @@ const initialState = {
   started: false
 };
 
-export default createReducer(initialState, {
+const timerReducer = createReducer(initialState, {
 
   [RESET_TIMER]() {
     return initialState;
@@ -47,3 +47,5 @@ export default createReducer(initialState, {
     };
   }
 });
+
+export default timerReducer;

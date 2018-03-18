@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { AutoSizer, List } from 'react-virtualized';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 
-import { BlindEditor, Button, DurationEditor, Icon } from '@/components';
+import { Button, Icon } from '@/components';
+import { BlindEditor, DurationEditor } from '../';
 
 import './LevelEditor.scss';
 
@@ -45,56 +46,39 @@ export default class LevelEditor extends PureComponent {
 
   list = null;
 
-  // eslint-disable-next-line max-statements
-  constructor(props) {
-    super(props);
-
-    this.scrollToBottom = this.scrollToBottom.bind(this);
-    this.setListRef = this.setListRef.bind(this);
-    this.handleSmallBlindChange = this.handleSmallBlindChange.bind(this);
-    this.handleBigBlindChange = this.handleBigBlindChange.bind(this);
-    this.handleAnteChange = this.handleAnteChange.bind(this);
-    this.handleDurationChange = this.handleDurationChange.bind(this);
-    this.handleRemoveLevel = this.handleRemoveLevel.bind(this);
-    this.handleSortEnd = this.handleSortEnd.bind(this);
-    this.renderBreakLevel = this.renderBreakLevel.bind(this);
-    this.renderPlayLevel = this.renderPlayLevel.bind(this);
-    this.rowRenderer = this.rowRenderer.bind(this);
-  }
-
-  scrollToBottom() {
+  scrollToBottom = () => {
     this.list.scrollToRow(this.props.levels.length);
-  }
+  };
 
-  setListRef(elem) {
+  setListRef = (elem) => {
     this.list = elem;
-  }
+  };
 
-  handleSmallBlindChange(id, value) {
+  handleSmallBlindChange = (id, value) => {
     this.props.actions.editSmallBlind(id, value);
-  }
+  };
 
-  handleBigBlindChange(id, value) {
+  handleBigBlindChange = (id, value) => {
     this.props.actions.editBigBlind(id, value);
-  }
+  };
 
-  handleAnteChange(id, value) {
+  handleAnteChange = (id, value) => {
     this.props.actions.editAnte(id, value);
-  }
+  };
 
-  handleDurationChange(id, value) {
+  handleDurationChange = (id, value) => {
     this.props.actions.editDuration(id, value);
-  }
+  };
 
-  handleRemoveLevel(id) {
+  handleRemoveLevel = (id) => {
     this.props.actions.removeLevel(id);
 
     // Reset the timer so that we don't have any issues of the
     // timer counting down with the wrong duration.
     this.props.actions.resetTimer();
-  }
+  };
 
-  handleSortEnd({ oldIndex, newIndex }) {
+  handleSortEnd = ({ oldIndex, newIndex }) => {
 
     // Don't dispatch the state change unless
     // the item actually moves.
@@ -102,7 +86,7 @@ export default class LevelEditor extends PureComponent {
       this.props.actions.editPosition(oldIndex, newIndex);
       this.list.forceUpdateGrid();
     }
-  }
+  };
 
   renderBreakLevel({ className, index, style, level }) {
     const { id, duration } = level;
@@ -205,7 +189,7 @@ export default class LevelEditor extends PureComponent {
     );
   }
 
-  rowRenderer({ index, style }) {
+  rowRenderer = ({ index, style }) => {
     const level = this.props.levels[index];
     const className = index % 2 === 0 ?
       'table-row table-row--even' :
@@ -222,7 +206,7 @@ export default class LevelEditor extends PureComponent {
     }
 
     return this.renderPlayLevel(renderOptions);
-  }
+  };
 
   render() {
     const { levels } = this.props;

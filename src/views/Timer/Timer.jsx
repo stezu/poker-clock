@@ -37,23 +37,13 @@ class Timer extends PureComponent {
   remainingTime = 0;
   displayLevels = {};
 
-  constructor(props) {
-    super(props);
-
-    this.handlePause = this.handlePause.bind(this);
-    this.handleResume = this.handleResume.bind(this);
-    this.handlePrev = this.handlePrev.bind(this);
-    this.handleNext = this.handleNext.bind(this);
-    this.handleTimeEnd = this.handleTimeEnd.bind(this);
-  }
-
-  handlePause() {
+  handlePause = ()  => {
     const { actions } = this.props;
 
     actions.pauseTimer();
-  }
+  };
 
-  handleResume() {
+  handleResume = () => {
     const { timer, actions } = this.props;
 
     if (!timer.started) {
@@ -63,29 +53,29 @@ class Timer extends PureComponent {
     }
 
     actions.resumeTimer();
-  }
+  };
 
-  handlePrev() {
+  handlePrev = () => {
     const { actions } = this.props;
 
     actions.decrementLevel();
     startLevel(actions, this.displayLevels.previous);
-  }
+  };
 
-  handleNext() {
+  handleNext = () => {
     const { actions } = this.props;
 
     actions.incrementLevel();
     startLevel(actions, this.displayLevels.next);
-  }
+  };
 
-  handleTimeEnd() {
+  handleTimeEnd = () => {
     const { actions } = this.props;
 
     // Increment the level, then start timer for the current level (which is now correct)
     actions.incrementLevel();
     startLevel(actions, this.displayLevels.current);
-  }
+  };
 
   calculateRemainingTime() {
     const { timer } = this.props;

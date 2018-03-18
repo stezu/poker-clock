@@ -22,17 +22,11 @@ export default class Button extends PureComponent {
     title: ''
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(...args) {
+  handleClick = (...args) => {
     const { onClick, clickProps } = this.props;
 
     onClick(...clickProps, ...args);
-  }
+  };
 
   render() {
     const { children, className, disabled, tabIndex, title } = this.props;

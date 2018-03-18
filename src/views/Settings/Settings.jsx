@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { Button, LevelEditor } from '@/components';
+import { Button } from '@/components';
 import * as actionCreators from '@/actions';
+import { LevelEditor } from './components';
 
 import './Settings.scss';
 
@@ -14,33 +15,25 @@ class Settings extends PureComponent {
     levels: PropTypes.arrayOf(PropTypes.object).isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.scrollToBottom = this.scrollToBottom.bind(this);
-    this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
-    this.handleBreakButtonClick = this.handleBreakButtonClick.bind(this);
-  }
-
   levelEditor = null;
 
-  scrollToBottom() {
+  scrollToBottom = () => {
 
     // TODO: find a way to do this without a timeout
     setTimeout(() => {
       this.levelEditor.scrollToBottom();
     }, 0);
-  }
+  };
 
-  handlePlayButtonClick() {
+  handlePlayButtonClick = () => {
     this.props.actions.addLevel();
     this.scrollToBottom();
-  }
+  };
 
-  handleBreakButtonClick() {
+  handleBreakButtonClick = () => {
     this.props.actions.addBreak();
     this.scrollToBottom();
-  }
+  };
 
   render() {
     const { actions, levels } = this.props;

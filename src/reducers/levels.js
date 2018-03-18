@@ -12,10 +12,7 @@ import {
   ADD_LEVEL,
   ADD_BREAK
 } from '@/constants/actionTypes';
-import { arrayOfLength, createReducer } from '@/modules';
-
-// Get the level configuration
-import { getLevelConfiguration } from '@/config';
+import { arrayOfLength, createReducer, getLevelConfiguration } from '@/modules';
 
 // Each level of play needs to have a number. This function
 // adds that auto-incrementing number starting at 1.
@@ -82,7 +79,7 @@ function getInitialState() {
   return numberPlayLevels(levels);
 }
 
-export default createReducer(getInitialState(), {
+const levelsReducer = createReducer(getInitialState(), {
 
   [RESET_LEVELS]() {
     return getInitialState();
@@ -173,3 +170,5 @@ export default createReducer(getInitialState(), {
     ];
   }
 });
+
+export default levelsReducer;
